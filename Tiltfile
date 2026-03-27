@@ -1,32 +1,35 @@
 load('ext://restart_process', 'docker_build_with_restart')
 
-# Build the operator binary locally for fast rebuilds
+allow_k8s_contexts('k3d-slides-demo')
+default_registry('localhost:5050')
+
+compile_cmd = 'cd operator/app && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ../../.tilt/out/manager cmd/main.go'
+
+# Build the operator binary locally, rebuild on source changes
 local_resource(
     'operator-build',
-    'cd operator/app && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/manager cmd/main.go',
+    compile_cmd,
     deps=['operator/app/cmd', 'operator/app/internal', 'operator/app/api'],
 )
 
-# Build a minimal Docker image using the pre-built binary
+# Build image from the .tilt/out/ staging directory and live-sync on rebuilds
 docker_build_with_restart(
     'ghcr.io/haavasma/presentation-operator',
-    context='operator/app',
+    context='.tilt/out/',
     dockerfile_contents='''
-FROM gcr.io/distroless/static:nonroot
-WORKDIR /
-COPY bin/manager /manager
+FROM alpine:3.21
+WORKDIR /app
+COPY manager /app/manager
 USER 65532:65532
-ENTRYPOINT ["/manager"]
+ENTRYPOINT ["/app/manager"]
 ''',
-    only=['bin/manager'],
-    entrypoint=['/manager'],
+    entrypoint=['/app/manager'],
     live_update=[
-        sync('operator/app/bin/manager', '/manager'),
+        sync('.tilt/out', '/app'),
     ],
 )
 
 # Deploy via kustomize
 k8s_yaml(kustomize('operator/config'))
 
-# Also deploy CRDs from the operator scaffolding
-k8s_yaml(kustomize('operator/app/config/crd'))
+k8s_resource('app-controller-manager', resource_deps=['operator-build'])

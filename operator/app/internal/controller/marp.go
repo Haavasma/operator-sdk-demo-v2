@@ -14,6 +14,7 @@ style: |
   section { background-color: {{.Theme.BackgroundColor}}; color: {{.Theme.PrimaryColor}}; font-family: {{.Theme.FontFamily}}; }
   h1 { color: {{.Theme.PrimaryColor}}; }
   h2 { color: {{.Theme.SecondaryColor}}; }
+  img[alt="logo"] { position: absolute; top: 20px; right: 20px; width: 80px; height: auto; }
 ---
 {{range $i, $slide := .Slides}}
 {{- if $i}}

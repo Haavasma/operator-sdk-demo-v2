@@ -9,6 +9,11 @@ ports:
     nodeFilters: [loadbalancer]
   - port: 443:443
     nodeFilters: [loadbalancer]
+registries:
+  create:
+    name: slides-registry
+    host: "0.0.0.0"
+    hostPort: "5050"
 options:
   k3s:
     extraArgs:
