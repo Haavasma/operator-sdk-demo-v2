@@ -37,6 +37,17 @@ helm install eg oci://docker.io/envoyproxy/gateway-helm \
   -n envoy-gateway-system --create-namespace \
   --wait 2>/dev/null || echo "    Envoy Gateway already installed, skipping."
 
+echo "==> Creating EnvoyProxy config (merge gateways into a single proxy)..."
+kubectl apply -f - <<EPEOF
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: proxy-config
+  namespace: envoy-gateway-system
+spec:
+  mergeGateways: true
+EPEOF
+
 echo "==> Creating GatewayClass 'eg'..."
 kubectl apply -f - <<GCEOF
 apiVersion: gateway.networking.k8s.io/v1
@@ -45,6 +56,11 @@ metadata:
   name: eg
 spec:
   controllerName: gateway.envoyproxy.io/gatewayclass-controller
+  parametersRef:
+    group: gateway.envoyproxy.io
+    kind: EnvoyProxy
+    name: proxy-config
+    namespace: envoy-gateway-system
 GCEOF
 
 echo "==> Creating ArgoCD Gateway..."
