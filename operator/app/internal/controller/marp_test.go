@@ -141,6 +141,8 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 			},
 			contains: []string{
 				"![logo](https://example.com/logo.png)",
+				`img[alt="logo"]`,
+				"width: 80px",
 			},
 		},
 		{
