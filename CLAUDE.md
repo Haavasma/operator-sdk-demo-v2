@@ -54,6 +54,7 @@ tilt up                                # watches operator/app/, rebuilds into cl
 - **Traefik disabled** in k3d — Envoy Gateway is the sole ingress
 - **GatewayClass**: `eg` (Envoy Gateway default)
 - DNS: `*.slides.local` must resolve to 127.0.0.1 locally (manual `/etc/hosts` or dnsmasq)
+- **Namespace ownership by ArgoCD** — resource manifests must NOT hardcode namespaces. Namespaces are set by the ArgoCD Application's `spec.destination.namespace`. This keeps manifests portable and avoids duplication between Kustomize overlays and ArgoCD config.
 
 ## ADRs
 

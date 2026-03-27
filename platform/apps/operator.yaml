@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: presentation-operator
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Haavasma/operator-sdk-demo-v2.git
+    path: operator/config
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: presentation-operator-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

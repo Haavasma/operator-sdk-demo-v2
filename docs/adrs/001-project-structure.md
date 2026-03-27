@@ -48,8 +48,13 @@ infra/bootstrap.sh
                  └─> Presentations Application (presentations/)
 ```
 
+### Namespace Convention
+
+Resource manifests (Kustomize overlays, Presentation CRs, etc.) must **not** hardcode namespaces. Target namespaces are set exclusively by the ArgoCD Application's `spec.destination.namespace`. This keeps manifests portable and avoids conflicts between Kustomize namespace transformers and ArgoCD's namespace assignment.
+
 ## Consequences
 - Single repo simplifies CI, PRs, and cross-cutting changes
 - ArgoCD watches this repo — operator deploys automatically on push
 - Tilt watches `operator/app/` for fast local iteration
 - Clear separation between infra bootstrap (imperative) and platform state (declarative/GitOps)
+- Namespace ownership lives in ArgoCD Application CRs, not in resource manifests

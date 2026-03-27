@@ -1,1 +1,4 @@
 Session.vim
+*.swp
+*.swo
+.tiltbuild/
