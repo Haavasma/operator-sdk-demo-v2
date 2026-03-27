@@ -92,5 +92,5 @@ A companion `infra/teardown.sh` script deletes the k3d cluster cleanly.
 ## Consequences
 - One command (`./infra/bootstrap.sh`) gets a fully functional environment
 - ArgoCD manages all platform and operator resources after bootstrap
-- k3d port mappings allow local browser access to presentations via `*.slides.local` (with `/etc/hosts` or dnsmasq)
+- k3d port mappings allow local browser access to presentations via `*.localhost` (with `/etc/hosts` or dnsmasq)
 - Disabling traefik avoids conflicts with Envoy Gateway

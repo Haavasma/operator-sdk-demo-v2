@@ -14,10 +14,10 @@ Each Presentation CR needs to be accessible via a unique hostname. We chose Gate
 
 ### Hostname Pattern
 ```
-<presentation-name>.<namespace>.slides.local
+<presentation-name>.<namespace>.localhost
 ```
 
-Example: `kubernetes-operators-101.demos.slides.local`
+Example: `kubernetes-operators-101.demos.localhost`
 
 ### Resource Model
 
@@ -35,7 +35,7 @@ spec:
     - name: http
       protocol: HTTP
       port: 80
-      hostname: "foo.bar.slides.local"
+      hostname: "foo.bar.localhost"
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -47,7 +47,7 @@ spec:
     - name: foo
       namespace: bar
   hostnames:
-    - "foo.bar.slides.local"
+    - "foo.bar.localhost"
   rules:
     - backendRefs:
         - name: foo
@@ -56,7 +56,7 @@ spec:
 
 ### Local DNS Resolution
 
-For local development, developers add wildcard entries to `/etc/hosts` or use dnsmasq/coredns to resolve `*.slides.local` to `127.0.0.1`.
+For local development, developers add wildcard entries to `/etc/hosts` or use dnsmasq/coredns to resolve `*.localhost` to `127.0.0.1`.
 
 The bootstrap script will print instructions for this.
 
@@ -72,4 +72,4 @@ One Gateway per Presentation is more isolated and maps cleanly to the ownership 
 - Clean 1:1 mapping between Presentation CRs and Gateway/HTTPRoute resources
 - Owner references enable automatic cleanup
 - May hit Envoy Gateway listener limits at scale — acceptable for a demo, would revisit for production use
-- Developers need local DNS setup for `*.slides.local`
+- Developers need local DNS setup for `*.localhost`

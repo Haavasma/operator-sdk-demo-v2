@@ -1,17 +1,26 @@
-apiVersion: argocd-image-updater.argoproj.io/v1alpha1
-kind: ImageUpdater
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 metadata:
-  name: operator-image-updater
+  name: image-updater-config
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
-  writeBackConfig:
-    method: "argocd"
-  applicationRefs:
-    - namePattern: "presentation-operator"
-      images:
-        - alias: "operator"
-          imageName: "ghcr.io/haavasma/presentation-operator"
-          commonUpdateSettings:
-            updateStrategy: "newest-build"
+  project: default
+  source:
+    repoURL: https://github.com/Haavasma/operator-sdk-demo-v2.git
+    path: platform/image-updater-config
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 2m

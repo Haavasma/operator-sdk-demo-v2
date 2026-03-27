@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Kubernetes operator demo: a Go controller (Operator SDK) that watches **Presentation** custom resources and reconciles them into live Marp slide decks served via Gateway API.
 
 - **CRD**: `Presentation` (`slides.example.com/v1alpha1`, namespaced) — structured slide spec (theme, colors, bullets) that the operator renders into Marp markdown
-- **Reconciled resources per CR**: ConfigMap (Marp markdown) → Deployment (`marpteam/marp-cli --server`) → Service → Gateway + HTTPRoute (Envoy Gateway, hostname: `<name>.<ns>.slides.local`)
+- **Reconciled resources per CR**: ConfigMap (Marp markdown) → Deployment (`marpteam/marp-cli --server`) → Service → Gateway + HTTPRoute (Envoy Gateway, hostname: `<name>.<ns>.localhost`)
 - **All child resources** carry ownerReferences back to the Presentation CR
 
 ## Architecture
@@ -53,7 +53,7 @@ tilt up                                # watches operator/app/, rebuilds into cl
 - **Marp server mode** (`marp --server /slides/`) — no build pipeline, ConfigMap changes reflected live
 - **Traefik disabled** in k3d — Envoy Gateway is the sole ingress
 - **GatewayClass**: `eg` (Envoy Gateway default)
-- DNS: `*.slides.local` must resolve to 127.0.0.1 locally (manual `/etc/hosts` or dnsmasq)
+- DNS: `*.localhost` must resolve to 127.0.0.1 locally (manual `/etc/hosts` or dnsmasq)
 - **Namespace ownership by ArgoCD** — resource manifests must NOT hardcode namespaces. Namespaces are set by the ArgoCD Application's `spec.destination.namespace`. This keeps manifests portable and avoids duplication between Kustomize overlays and ArgoCD config.
 
 ## ADRs

@@ -46,7 +46,7 @@ For each Presentation CR, the operator creates/updates:
 2. **Deployment** — Single-replica pod running `marpteam/marp-cli` in server mode, with the ConfigMap mounted as a volume
 3. **Service** — ClusterIP targeting the Marp server (port 8080)
 4. **Gateway** — Envoy Gateway resource for the presentation
-5. **HTTPRoute** — Routes `<name>.<namespace>.slides.local` to the Service
+5. **HTTPRoute** — Routes `<name>.<namespace>.localhost` to the Service
 
 ### Marp Markdown Generation
 
@@ -96,7 +96,7 @@ status:
     - type: Ready
       status: "True"
       reason: AllResourcesHealthy
-  url: "http://kubernetes-operators-101.demos.slides.local"
+  url: "http://kubernetes-operators-101.demos.localhost"
 ```
 
 ## Consequences

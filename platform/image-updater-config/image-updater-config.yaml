@@ -1,0 +1,17 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: operator-image-updater
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  writeBackConfig:
+    method: "argocd"
+  applicationRefs:
+    - namePattern: "presentation-operator"
+      images:
+        - alias: "operator"
+          imageName: "ghcr.io/haavasma/presentation-operator"
+          commonUpdateSettings:
+            updateStrategy: "newest-build"
