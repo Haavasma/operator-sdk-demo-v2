@@ -20,26 +20,68 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
+// ThemeSpec defines the visual theme for the presentation.
+type ThemeSpec struct {
+	// +kubebuilder:validation:Required
+	PrimaryColor string `json:"primaryColor"`
+
+	// +kubebuilder:validation:Required
+	SecondaryColor string `json:"secondaryColor"`
+
+	// +kubebuilder:validation:Required
+	BackgroundColor string `json:"backgroundColor"`
+
+	// +kubebuilder:validation:Required
+	FontFamily string `json:"fontFamily"`
+
+	// +optional
+	Logo string `json:"logo,omitempty"`
+}
+
+// SlideSpec defines a single slide in the presentation.
+type SlideSpec struct {
+	// +kubebuilder:validation:Required
+	Title string `json:"title"`
+
+	// +optional
+	Subtitle string `json:"subtitle,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinItems=1
+	Bullets []string `json:"bullets"`
+
+	// +optional
+	Notes string `json:"notes,omitempty"`
+
+	// +optional
+	// +kubebuilder:default="default"
+	Layout string `json:"layout,omitempty"`
+}
 
 // PresentationSpec defines the desired state of Presentation.
 type PresentationSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// +kubebuilder:validation:Required
+	Theme ThemeSpec `json:"theme"`
 
-	// Foo is an example field of Presentation. Edit presentation_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinItems=1
+	Slides []SlideSpec `json:"slides"`
 }
 
 // PresentationStatus defines the observed state of Presentation.
 type PresentationStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// +optional
+	Conditions []metav1.Condition `json:"conditions,omitempty"`
+
+	// +optional
+	URL string `json:"url,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="URL",type="string",JSONPath=".status.url"
+// +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
 
 // Presentation is the Schema for the presentations API.
 type Presentation struct {
