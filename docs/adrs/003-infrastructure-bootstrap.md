@@ -23,6 +23,33 @@ We need a reproducible local development environment that mirrors a production-l
 - Install Envoy Gateway via Helm
 - Provides GatewayClass `eg` used by the operator when creating Gateway resources
 
+### Image Updates: ArgoCD Image Updater (v1.x, CRD-based)
+
+- Deployed as part of the platform via the root app-of-apps (`platform/`)
+- Installed via the `argo/argocd-image-updater` Helm chart into the `argocd` namespace
+- Uses the CRD-based configuration (not legacy annotations) with an `ImageUpdater` custom resource:
+
+```yaml
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: operator-image-updater
+  namespace: argocd
+spec:
+  writeBackConfig:
+    method: "argocd"
+  applicationRefs:
+    - namePattern: "presentation-operator"
+      images:
+        - alias: "operator"
+          imageName: "ghcr.io/<owner>/presentation-operator"
+          commonUpdateSettings:
+            updateStrategy: "newest-build"
+```
+
+- **`argocd` write-back method**: updates the live Application object via the ArgoCD API — no git commit needed for image-only changes
+- **`newest-build` strategy**: selects the tag with the most recent build timestamp from the registry manifest, which works well with CI-generated SHA tags
+
 ### Bootstrap Script (`infra/bootstrap.sh`)
 
 Execution order:
@@ -31,7 +58,7 @@ Execution order:
 3. Install Envoy Gateway via Helm
 4. Install ArgoCD via Helm
 5. Wait for ArgoCD to be ready
-6. Apply root Application CR (points to `platform/`)
+6. Apply root Application CR (points to `platform/`, which includes argocd-image-updater and its `ImageUpdater` CR)
 7. Print ArgoCD admin credentials and dashboard URL
 
 ### k3d Cluster Configuration

@@ -26,18 +26,21 @@ ghcr.io/<owner>/presentation-operator:<tag>
 4. Build operator binary
 5. Build & push Docker image to ghcr.io
    - Tags: `latest` + git SHA + semver tag (if tagged)
-6. Update image tag in `operator/config/` manifests (optional — can also use `latest` for demo)
+6. No manifest update needed — argocd-image-updater picks up the new image automatically
 
 ### Deployment Flow
 
 ```
 Developer pushes code
   ├─> GitHub Actions builds & pushes image to ghcr.io
-  │    └─> ArgoCD detects manifest change in operator/config/
-  │         └─> ArgoCD syncs operator Deployment with new image
+  │    └─> argocd-image-updater detects new image (newest-build strategy)
+  │         └─> Updates operator Application via ArgoCD API (argocd write-back)
+  │              └─> ArgoCD syncs operator Deployment with new image
   └─> ArgoCD detects changes in presentations/
        └─> ArgoCD syncs Presentation CRs → operator reconciles child resources
 ```
+
+Image updates are handled by the `ImageUpdater` CR (see ADR-003), not by manifest commits. CI only builds and pushes — the image updater closes the loop.
 
 ### Local Development: Tilt
 
@@ -61,4 +64,4 @@ Tilt is scoped to the operator only — infrastructure and platform resources ar
 - ghcr.io is free for public repos and co-located with the source
 - ArgoCD handles deployment — no CD logic in GitHub Actions
 - Tilt provides fast inner-loop iteration without rebuilding via CI
-- Image tag updates in `operator/config/` trigger ArgoCD sync
+- argocd-image-updater (`ImageUpdater` CR) automatically detects new images and updates the operator via the ArgoCD API — no manifest commits needed for image-only changes
