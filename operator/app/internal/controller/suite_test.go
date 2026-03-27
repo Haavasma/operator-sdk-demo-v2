@@ -18,8 +18,11 @@ package controller
 
 import (
 	"context"
+	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -31,6 +34,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+	gatewayv1 "sigs.k8s.io/gateway-api/apis/v1"
 
 	presentationsv1alpha1 "github.com/Haavasma/operator-sdk-demo-v2/api/v1alpha1"
 	// +kubebuilder:scaffold:imports
@@ -62,11 +66,22 @@ var _ = BeforeSuite(func() {
 	err = presentationsv1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
+	err = gatewayv1.Install(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
 	// +kubebuilder:scaffold:scheme
 
 	By("bootstrapping test environment")
+	crdPaths := []string{filepath.Join("..", "..", "config", "crd", "bases")}
+
+	// Add Gateway API CRDs from the module cache
+	gwCRDPath := gatewayAPICRDPath()
+	if gwCRDPath != "" {
+		crdPaths = append(crdPaths, gwCRDPath)
+	}
+
 	testEnv = &envtest.Environment{
-		CRDDirectoryPaths:     []string{filepath.Join("..", "..", "config", "crd", "bases")},
+		CRDDirectoryPaths:     crdPaths,
 		ErrorIfCRDPathMissing: true,
 	}
 
@@ -92,19 +107,33 @@ var _ = AfterSuite(func() {
 	Expect(err).NotTo(HaveOccurred())
 })
 
+// gatewayAPICRDPath locates the Gateway API CRD YAML files from the Go module cache.
+func gatewayAPICRDPath() string {
+	cmd := exec.Command("go", "env", "GOMODCACHE")
+	out, err := cmd.Output()
+	if err != nil {
+		logf.Log.Error(err, "Failed to get GOMODCACHE")
+		return ""
+	}
+	modCache := strings.TrimSpace(string(out))
+
+	// Find the gateway-api module directory
+	pattern := filepath.Join(modCache, "sigs.k8s.io", "gateway-api@*", "config", "crd", "standard")
+	matches, err := filepath.Glob(pattern)
+	if err != nil || len(matches) == 0 {
+		logf.Log.Info("Gateway API CRDs not found in module cache", "pattern", pattern)
+		return ""
+	}
+	// Return the last match (highest version)
+	return matches[len(matches)-1]
+}
+
 // getFirstFoundEnvTestBinaryDir locates the first binary in the specified path.
-// ENVTEST-based tests depend on specific binaries, usually located in paths set by
-// controller-runtime. When running tests directly (e.g., via an IDE) without using
-// Makefile targets, the 'BinaryAssetsDirectory' must be explicitly configured.
-//
-// This function streamlines the process by finding the required binaries, similar to
-// setting the 'KUBEBUILDER_ASSETS' environment variable. To ensure the binaries are
-// properly set up, run 'make setup-envtest' beforehand.
 func getFirstFoundEnvTestBinaryDir() string {
 	basePath := filepath.Join("..", "..", "bin", "k8s")
 	entries, err := os.ReadDir(basePath)
 	if err != nil {
-		logf.Log.Error(err, "Failed to read directory", "path", basePath)
+		fmt.Fprintf(GinkgoWriter, "Failed to read directory %s: %v\n", basePath, err)
 		return ""
 	}
 	for _, entry := range entries {
