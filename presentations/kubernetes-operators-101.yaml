@@ -4,10 +4,11 @@ metadata:
   name: kubernetes-operators-101
 spec:
   theme:
-    primaryColor: "#0366d6"
-    secondaryColor: "#f6f8fa"
-    backgroundColor: "#ffffff"
+    primaryColor: "#cdd6f4"
+    secondaryColor: "#a6adc8"
+    backgroundColor: "#1e1e2e"
     fontFamily: "Inter, sans-serif"
+    logo: "https://companieslogo.com/img/orig/CRAYN.OL-12220c2f.png?t=1726036927"
   slides:
     - title: "Kubernetes Operators"
       subtitle: "Extending the platform"
