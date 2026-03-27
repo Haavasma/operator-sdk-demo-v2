@@ -16,7 +16,6 @@ spec:
         - "Custom Resources define your domain"
         - "Controllers reconcile desired → actual state"
         - "Operators encode operational knowledge"
-        - "Test update"
     - title: "The Reconciliation Loop"
       bullets:
         - "Watch for changes to Presentation CRs"
