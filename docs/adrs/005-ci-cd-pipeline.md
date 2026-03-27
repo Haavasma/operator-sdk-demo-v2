@@ -32,9 +32,11 @@ ghcr.io/<owner>/presentation-operator:<tag>
 
 ```
 Developer pushes code
-  └─> GitHub Actions builds & pushes image to ghcr.io
-       └─> ArgoCD detects manifest change in operator/config/
-            └─> ArgoCD syncs operator Deployment with new image
+  ├─> GitHub Actions builds & pushes image to ghcr.io
+  │    └─> ArgoCD detects manifest change in operator/config/
+  │         └─> ArgoCD syncs operator Deployment with new image
+  └─> ArgoCD detects changes in presentations/
+       └─> ArgoCD syncs Presentation CRs → operator reconciles child resources
 ```
 
 ### Local Development: Tilt
