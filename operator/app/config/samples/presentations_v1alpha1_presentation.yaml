@@ -1,0 +1,9 @@
+apiVersion: presentations.haavard.dev/v1alpha1
+kind: Presentation
+metadata:
+  labels:
+    app.kubernetes.io/name: app
+    app.kubernetes.io/managed-by: kustomize
+  name: presentation-sample
+spec:
+  # TODO(user): Add fields here

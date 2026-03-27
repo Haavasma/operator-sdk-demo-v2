@@ -1,0 +1,4 @@
+## Append samples of your project ##
+resources:
+- presentations_v1alpha1_presentation.yaml
+# +kubebuilder:scaffold:manifestskustomizesamples
