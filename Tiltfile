@@ -29,6 +29,12 @@ ENTRYPOINT ["/app/manager"]
     ],
 )
 
+# Disable ArgoCD auto-sync for the operator app so Tilt owns the deployment
+local(
+    'kubectl patch app presentation-operator -n argocd --type merge -p \'{"spec":{"syncPolicy":null}}\' 2>/dev/null || true',
+    quiet=True,
+)
+
 # Deploy via kustomize
 k8s_yaml(kustomize('operator/config'))
 
