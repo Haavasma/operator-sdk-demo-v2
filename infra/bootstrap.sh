@@ -93,6 +93,7 @@ helm install argocd argo/argo-cd \
   --set 'server.extraArgs[0]=--insecure' \
   --set 'configs.params.server\.insecure=true' \
   --set 'configs.cm.users\.anonymous\.enabled=true' \
+  --set 'configs.cm.timeout\.reconciliation=10s' \
   --set 'configs.rbac.policy\.default=role:admin' \
   --set server.httproute.enabled=true \
   --set 'server.httproute.parentRefs[0].name=argocd-gateway' \
