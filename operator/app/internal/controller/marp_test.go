@@ -140,13 +140,13 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 				},
 			},
 			contains: []string{
-				"![logo](https://example.com/logo.png)",
-				`img[alt="logo"]`,
-				"width: 80px",
+				"header: '![logo](https://example.com/logo.png)'",
+				"header { position: absolute; top: 20px; right: 20px;",
+				"header img { width: 100%",
 			},
 		},
 		{
-			name: "single image no bullets - full background cover",
+			name: "single image no bullets - full background contain",
 			spec: v1alpha1.PresentationSpec{
 				Theme: v1alpha1.ThemeSpec{
 					PrimaryColor:    "#000",
@@ -164,11 +164,11 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 				},
 			},
 			contains: []string{
-				"![bg cover](https://example.com/hero.jpg)",
+				"![bg contain](https://example.com/hero.jpg)",
 				"# Hero Slide",
 			},
 			notContains: []string{
-				"![bg right]",
+				"![bg right",
 			},
 		},
 		{
@@ -191,13 +191,13 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 				},
 			},
 			contains: []string{
-				"![bg right](https://example.com/diagram.png)",
+				"![bg right contain](https://example.com/diagram.png)",
 				"# Split Slide",
 				"- Point A",
 				"- Point B",
 			},
 			notContains: []string{
-				"![bg cover]",
+				"![bg contain](",
 			},
 		},
 		{
@@ -221,8 +221,8 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 				},
 			},
 			contains: []string{
-				"![bg right](https://example.com/img1.png)",
-				"![bg](https://example.com/img2.png)",
+				"![bg right contain](https://example.com/img1.png)",
+				"![bg contain](https://example.com/img2.png)",
 				"- Item",
 			},
 		},
@@ -246,8 +246,8 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 				},
 			},
 			contains: []string{
-				"![bg cover](https://example.com/a.jpg)",
-				"![bg](https://example.com/b.jpg)",
+				"![bg contain](https://example.com/a.jpg)",
+				"![bg contain](https://example.com/b.jpg)",
 			},
 		},
 		{
@@ -270,7 +270,7 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 				},
 			},
 			contains: []string{
-				"![bg right Revenue chart](https://example.com/chart.png)",
+				"![bg right contain Revenue chart](https://example.com/chart.png)",
 			},
 		},
 		{

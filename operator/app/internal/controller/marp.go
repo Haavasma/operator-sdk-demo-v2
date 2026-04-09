@@ -21,30 +21,33 @@ style: |
   section { background-color: {{.Theme.BackgroundColor}}; color: {{.Theme.PrimaryColor}}; font-family: {{.Theme.FontFamily}}; }
   h1 { color: {{.Theme.PrimaryColor}}; }
   h2 { color: {{.Theme.SecondaryColor}}; }
-  img[alt="logo"] { position: absolute; top: 20px; right: 20px; width: 80px; height: auto; }
+{{- if .Theme.Logo}}
+  header { position: absolute; top: 20px; right: 20px; width: 80px; }
+  header img { width: 100%; height: auto; }
+{{- end}}
+{{- if .Theme.Logo}}
+header: '![logo]({{.Theme.Logo}})'
+{{- end}}
 ---
 {{range $i, $slide := .Slides}}
 {{- if $i}}
 ---
 {{end}}
-{{- if $.Theme.Logo}}![logo]({{$.Theme.Logo}})
-
-{{end -}}
 {{- if and $slide.Images (not $slide.Bullets)}}
 {{- range $j, $img := $slide.Images}}
 {{- if eq $j 0}}
-{{imageDirective $img "bg cover"}}
+{{imageDirective $img "bg contain"}}
 {{- else}}
-{{imageDirective $img "bg"}}
+{{imageDirective $img "bg contain"}}
 {{- end}}
 {{- end}}
 
 {{- else if $slide.Images}}
 {{- range $j, $img := $slide.Images}}
 {{- if eq $j 0}}
-{{imageDirective $img "bg right"}}
+{{imageDirective $img "bg right contain"}}
 {{- else}}
-{{imageDirective $img "bg"}}
+{{imageDirective $img "bg contain"}}
 {{- end}}
 {{- end}}
 
