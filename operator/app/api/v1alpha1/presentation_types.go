@@ -38,6 +38,15 @@ type ThemeSpec struct {
 	Logo string `json:"logo,omitempty"`
 }
 
+// ImageSpec defines an image to display on a slide.
+type ImageSpec struct {
+	// +kubebuilder:validation:Required
+	URL string `json:"url"`
+
+	// +optional
+	Alt string `json:"alt,omitempty"`
+}
+
 // SlideSpec defines a single slide in the presentation.
 type SlideSpec struct {
 	// +kubebuilder:validation:Required
@@ -46,9 +55,11 @@ type SlideSpec struct {
 	// +optional
 	Subtitle string `json:"subtitle,omitempty"`
 
-	// +kubebuilder:validation:Required
-	// +kubebuilder:validation:MinItems=1
-	Bullets []string `json:"bullets"`
+	// +optional
+	Bullets []string `json:"bullets,omitempty"`
+
+	// +optional
+	Images []ImageSpec `json:"images,omitempty"`
 
 	// +optional
 	Notes string `json:"notes,omitempty"`

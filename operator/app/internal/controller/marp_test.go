@@ -146,6 +146,158 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 			},
 		},
 		{
+			name: "single image no bullets - full background cover",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title: "Hero Slide",
+						Images: []v1alpha1.ImageSpec{
+							{URL: "https://example.com/hero.jpg"},
+						},
+					},
+				},
+			},
+			contains: []string{
+				"![bg cover](https://example.com/hero.jpg)",
+				"# Hero Slide",
+			},
+			notContains: []string{
+				"![bg right]",
+			},
+		},
+		{
+			name: "bullets with one image - split layout",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title:   "Split Slide",
+						Bullets: []string{"Point A", "Point B"},
+						Images: []v1alpha1.ImageSpec{
+							{URL: "https://example.com/diagram.png"},
+						},
+					},
+				},
+			},
+			contains: []string{
+				"![bg right](https://example.com/diagram.png)",
+				"# Split Slide",
+				"- Point A",
+				"- Point B",
+			},
+			notContains: []string{
+				"![bg cover]",
+			},
+		},
+		{
+			name: "bullets with multiple images - stacked split",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title:   "Multi Image",
+						Bullets: []string{"Item"},
+						Images: []v1alpha1.ImageSpec{
+							{URL: "https://example.com/img1.png"},
+							{URL: "https://example.com/img2.png"},
+						},
+					},
+				},
+			},
+			contains: []string{
+				"![bg right](https://example.com/img1.png)",
+				"![bg](https://example.com/img2.png)",
+				"- Item",
+			},
+		},
+		{
+			name: "multiple images no bullets - tiled background",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title: "Gallery",
+						Images: []v1alpha1.ImageSpec{
+							{URL: "https://example.com/a.jpg"},
+							{URL: "https://example.com/b.jpg"},
+						},
+					},
+				},
+			},
+			contains: []string{
+				"![bg cover](https://example.com/a.jpg)",
+				"![bg](https://example.com/b.jpg)",
+			},
+		},
+		{
+			name: "image with alt text",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title:   "Alt Text Slide",
+						Bullets: []string{"Info"},
+						Images: []v1alpha1.ImageSpec{
+							{URL: "https://example.com/chart.png", Alt: "Revenue chart"},
+						},
+					},
+				},
+			},
+			contains: []string{
+				"![bg right Revenue chart](https://example.com/chart.png)",
+			},
+		},
+		{
+			name: "no images - unchanged output regression",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title:   "Plain Slide",
+						Bullets: []string{"Just text"},
+					},
+				},
+			},
+			contains: []string{
+				"# Plain Slide",
+				"- Just text",
+			},
+			notContains: []string{
+				"![bg",
+			},
+		},
+		{
 			name: "secondary color in h2 style",
 			spec: v1alpha1.PresentationSpec{
 				Theme: v1alpha1.ThemeSpec{

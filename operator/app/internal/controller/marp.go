@@ -7,7 +7,14 @@ import (
 	v1alpha1 "github.com/Haavasma/operator-sdk-demo-v2/api/v1alpha1"
 )
 
-var marpTemplate = template.Must(template.New("marp").Parse(`---
+var marpTemplate = template.Must(template.New("marp").Funcs(template.FuncMap{
+	"imageDirective": func(img v1alpha1.ImageSpec, prefix string) string {
+		if img.Alt != "" {
+			return "![" + prefix + " " + img.Alt + "](" + img.URL + ")"
+		}
+		return "![" + prefix + "](" + img.URL + ")"
+	},
+}).Parse(`---
 marp: true
 theme: default
 style: |
@@ -23,6 +30,25 @@ style: |
 {{- if $.Theme.Logo}}![logo]({{$.Theme.Logo}})
 
 {{end -}}
+{{- if and $slide.Images (not $slide.Bullets)}}
+{{- range $j, $img := $slide.Images}}
+{{- if eq $j 0}}
+{{imageDirective $img "bg cover"}}
+{{- else}}
+{{imageDirective $img "bg"}}
+{{- end}}
+{{- end}}
+
+{{- else if $slide.Images}}
+{{- range $j, $img := $slide.Images}}
+{{- if eq $j 0}}
+{{imageDirective $img "bg right"}}
+{{- else}}
+{{imageDirective $img "bg"}}
+{{- end}}
+{{- end}}
+
+{{- end}}
 # {{$slide.Title}}
 {{- if $slide.Subtitle}}
 ## {{$slide.Subtitle}}

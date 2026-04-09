@@ -12,16 +12,18 @@ spec:
   slides:
     - title: "Kubernetes Operators"
       subtitle: "Extending the platform"
-      bullets:
-        - "Custom Resources define your domain"
-        - "Controllers reconcile desired → actual state"
-        - "Operators encode operational knowledge"
+      images:
+        - url: "https://kubernetes.io/images/kubernetes-horizontal-color.png"
+          alt: "Kubernetes logo"
     - title: "The Reconciliation Loop"
       bullets:
         - "Watch for changes to Presentation CRs"
         - "Generate Marp markdown from structured spec"
         - "Create ConfigMap, Deployment, Service, Gateway, HTTPRoute"
         - "Set ownerReferences for automatic cleanup"
+      images:
+        - url: "https://kubernetes.io/docs/concepts/architecture/control-loop.svg"
+          alt: "Reconciliation loop diagram"
     - title: "Why Operators?"
       bullets:
         - "Encode domain knowledge as code"

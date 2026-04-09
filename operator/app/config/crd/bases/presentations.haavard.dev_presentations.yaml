@@ -56,7 +56,18 @@ spec:
                     bullets:
                       items:
                         type: string
-                      minItems: 1
+                      type: array
+                    images:
+                      items:
+                        description: ImageSpec defines an image to display on a slide.
+                        properties:
+                          alt:
+                            type: string
+                          url:
+                            type: string
+                        required:
+                        - url
+                        type: object
                       type: array
                     layout:
                       default: default
@@ -68,7 +79,6 @@ spec:
                     title:
                       type: string
                   required:
-                  - bullets
                   - title
                   type: object
                 minItems: 1
