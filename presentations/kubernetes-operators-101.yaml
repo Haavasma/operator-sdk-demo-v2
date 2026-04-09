@@ -13,7 +13,7 @@ spec:
     - title: "Kubernetes Operators"
       subtitle: "Extending the platform"
       images:
-        - url: "https://kubernetes.io/images/kubernetes-horizontal-color.png"
+        - url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Kubernetes_logo_without_workmark.svg/3840px-Kubernetes_logo_without_workmark.svg.png"
           alt: "Kubernetes logo"
     - title: "The Reconciliation Loop"
       bullets:
@@ -22,7 +22,7 @@ spec:
         - "Create ConfigMap, Deployment, Service, Gateway, HTTPRoute"
         - "Set ownerReferences for automatic cleanup"
       images:
-        - url: "https://kubernetes.io/docs/concepts/architecture/control-loop.svg"
+        - url: "https://www.kubermatic.com/static/graphic_what-are-kubernetes-operators.png"
           alt: "Reconciliation loop diagram"
     - title: "Why Operators?"
       bullets:
