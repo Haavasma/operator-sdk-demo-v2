@@ -8,11 +8,15 @@ import (
 )
 
 var marpTemplate = template.Must(template.New("marp").Funcs(template.FuncMap{
-	"imageDirective": func(img v1alpha1.ImageSpec, prefix string) string {
+	"bgDirective": func(img v1alpha1.ImageSpec, prefix string) string {
 		if img.Alt != "" {
 			return "![" + prefix + " " + img.Alt + "](" + img.URL + ")"
 		}
 		return "![" + prefix + "](" + img.URL + ")"
+	},
+	"inlineImage": func(img v1alpha1.ImageSpec) string {
+		alt := img.Alt
+		return "![" + alt + "](" + img.URL + ")"
 	},
 }).Parse(`---
 marp: true
@@ -21,6 +25,7 @@ style: |
   section { background-color: {{.Theme.BackgroundColor}}; color: {{.Theme.PrimaryColor}}; font-family: {{.Theme.FontFamily}}; }
   h1 { color: {{.Theme.PrimaryColor}}; }
   h2 { color: {{.Theme.SecondaryColor}}; }
+  section.has-images p img { display: block; margin: 0 auto; max-height: 65%; object-fit: contain; }
 {{- if .Theme.Logo}}
   header { position: absolute; top: 20px; right: 20px; width: 80px; }
   header img { width: 100%; height: auto; }
@@ -33,24 +38,19 @@ header: '![logo]({{.Theme.Logo}})'
 {{- if $i}}
 ---
 {{end}}
-{{- if and $slide.Images (not $slide.Bullets)}}
+{{- if and (not $slide.Bullets) (not $slide.Images)}}
+<!-- _class: lead -->
+{{- else if and $slide.Images (not $slide.Bullets)}}
+<!-- _class: has-images -->
+{{- end}}
+{{- if and $slide.Images $slide.Bullets}}
 {{- range $j, $img := $slide.Images}}
 {{- if eq $j 0}}
-{{imageDirective $img "bg contain"}}
+{{bgDirective $img "bg right contain"}}
 {{- else}}
-{{imageDirective $img "bg contain"}}
+{{bgDirective $img "bg contain"}}
 {{- end}}
 {{- end}}
-
-{{- else if $slide.Images}}
-{{- range $j, $img := $slide.Images}}
-{{- if eq $j 0}}
-{{imageDirective $img "bg right contain"}}
-{{- else}}
-{{imageDirective $img "bg contain"}}
-{{- end}}
-{{- end}}
-
 {{- end}}
 # {{$slide.Title}}
 {{- if $slide.Subtitle}}
@@ -58,6 +58,11 @@ header: '![logo]({{.Theme.Logo}})'
 {{- end}}
 {{range $slide.Bullets}}
 - {{.}}
+{{- end}}
+{{- if and $slide.Images (not $slide.Bullets)}}
+{{range $slide.Images}}
+{{inlineImage .}}
+{{- end}}
 {{- end}}
 {{- if $slide.Notes}}
 

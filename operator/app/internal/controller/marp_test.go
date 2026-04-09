@@ -146,7 +146,7 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 			},
 		},
 		{
-			name: "single image no bullets - full background contain",
+			name: "single image no bullets - inline image below title",
 			spec: v1alpha1.PresentationSpec{
 				Theme: v1alpha1.ThemeSpec{
 					PrimaryColor:    "#000",
@@ -164,11 +164,12 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 				},
 			},
 			contains: []string{
-				"![bg contain](https://example.com/hero.jpg)",
+				"![](https://example.com/hero.jpg)",
 				"# Hero Slide",
+				"has-images",
 			},
 			notContains: []string{
-				"![bg right",
+				"![bg",
 			},
 		},
 		{
@@ -227,7 +228,7 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 			},
 		},
 		{
-			name: "multiple images no bullets - tiled background",
+			name: "multiple images no bullets - inline images below title",
 			spec: v1alpha1.PresentationSpec{
 				Theme: v1alpha1.ThemeSpec{
 					PrimaryColor:    "#000",
@@ -246,8 +247,12 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 				},
 			},
 			contains: []string{
-				"![bg contain](https://example.com/a.jpg)",
-				"![bg contain](https://example.com/b.jpg)",
+				"![](https://example.com/a.jpg)",
+				"![](https://example.com/b.jpg)",
+				"has-images",
+			},
+			notContains: []string{
+				"![bg",
 			},
 		},
 		{
@@ -274,6 +279,52 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 			},
 		},
 		{
+			name: "title only - centered with lead class",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title: "DEMO",
+					},
+				},
+			},
+			contains: []string{
+				"<!-- _class: lead -->",
+				"# DEMO",
+			},
+			notContains: []string{
+				"![",
+				"_class: has-images",
+			},
+		},
+		{
+			name: "title and subtitle only - centered",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title:    "Welcome",
+						Subtitle: "A Presentation",
+					},
+				},
+			},
+			contains: []string{
+				"<!-- _class: lead -->",
+				"# Welcome",
+				"## A Presentation",
+			},
+		},
+		{
 			name: "no images - unchanged output regression",
 			spec: v1alpha1.PresentationSpec{
 				Theme: v1alpha1.ThemeSpec{
@@ -295,6 +346,8 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 			},
 			notContains: []string{
 				"![bg",
+				"_class: lead",
+				"_class: has-images",
 			},
 		},
 		{
