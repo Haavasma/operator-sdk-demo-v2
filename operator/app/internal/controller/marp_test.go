@@ -140,9 +140,214 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 				},
 			},
 			contains: []string{
-				"![logo](https://example.com/logo.png)",
-				`img[alt="logo"]`,
-				"width: 80px",
+				"header: '![logo](https://example.com/logo.png)'",
+				"header { position: absolute; top: 20px; right: 20px;",
+				"header img { width: 100%",
+			},
+		},
+		{
+			name: "single image no bullets - inline image below title",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title: "Hero Slide",
+						Images: []v1alpha1.ImageSpec{
+							{URL: "https://example.com/hero.jpg"},
+						},
+					},
+				},
+			},
+			contains: []string{
+				"![](https://example.com/hero.jpg)",
+				"# Hero Slide",
+				"has-images",
+			},
+			notContains: []string{
+				"![bg",
+			},
+		},
+		{
+			name: "bullets with one image - split layout",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title:   "Split Slide",
+						Bullets: []string{"Point A", "Point B"},
+						Images: []v1alpha1.ImageSpec{
+							{URL: "https://example.com/diagram.png"},
+						},
+					},
+				},
+			},
+			contains: []string{
+				"![bg right contain](https://example.com/diagram.png)",
+				"# Split Slide",
+				"- Point A",
+				"- Point B",
+			},
+			notContains: []string{
+				"![bg contain](",
+			},
+		},
+		{
+			name: "bullets with multiple images - stacked split",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title:   "Multi Image",
+						Bullets: []string{"Item"},
+						Images: []v1alpha1.ImageSpec{
+							{URL: "https://example.com/img1.png"},
+							{URL: "https://example.com/img2.png"},
+						},
+					},
+				},
+			},
+			contains: []string{
+				"![bg right contain](https://example.com/img1.png)",
+				"![bg contain](https://example.com/img2.png)",
+				"- Item",
+			},
+		},
+		{
+			name: "multiple images no bullets - inline images below title",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title: "Gallery",
+						Images: []v1alpha1.ImageSpec{
+							{URL: "https://example.com/a.jpg"},
+							{URL: "https://example.com/b.jpg"},
+						},
+					},
+				},
+			},
+			contains: []string{
+				"![](https://example.com/a.jpg)",
+				"![](https://example.com/b.jpg)",
+				"has-images",
+			},
+			notContains: []string{
+				"![bg",
+			},
+		},
+		{
+			name: "image with alt text",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title:   "Alt Text Slide",
+						Bullets: []string{"Info"},
+						Images: []v1alpha1.ImageSpec{
+							{URL: "https://example.com/chart.png", Alt: "Revenue chart"},
+						},
+					},
+				},
+			},
+			contains: []string{
+				"![bg right contain Revenue chart](https://example.com/chart.png)",
+			},
+		},
+		{
+			name: "title only - centered with lead class",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title: "DEMO",
+					},
+				},
+			},
+			contains: []string{
+				"<!-- _class: lead -->",
+				"# DEMO",
+			},
+			notContains: []string{
+				"![",
+				"_class: has-images",
+			},
+		},
+		{
+			name: "title and subtitle only - centered",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title:    "Welcome",
+						Subtitle: "A Presentation",
+					},
+				},
+			},
+			contains: []string{
+				"<!-- _class: lead -->",
+				"# Welcome",
+				"## A Presentation",
+			},
+		},
+		{
+			name: "no images - unchanged output regression",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title:   "Plain Slide",
+						Bullets: []string{"Just text"},
+					},
+				},
+			},
+			contains: []string{
+				"# Plain Slide",
+				"- Just text",
+			},
+			notContains: []string{
+				"![bg",
+				"_class: lead",
+				"_class: has-images",
 			},
 		},
 		{

@@ -1,0 +1,70 @@
+apiVersion: presentations.haavard.dev/v1alpha1
+kind: Presentation
+metadata:
+  name: presentation-sample
+spec:
+  slides:
+    - title: "Operator-sdk: Why and how to make custom resources"
+    - title: "Kubernetes recap"
+      bullets:
+        - Orchestrator
+        - Microservices
+        - Apply resources/workloads with yaml specs
+        - Services, deployments, ingress
+        - GitOps
+    - images:
+        - https://cdn.prod.website-files.com/5ff66329429d880392f6cba2/673f4107a915916cd43fbdf8_646786e5646162c532696293_661.2.jpeg
+    - images:
+        - "https://iximiuz.com/kubernetes-operator-pattern/kube-control-loop-3000-opt.png"
+    - title: "Custom resource definition (CRDs)"
+      bullets:
+        - Tells Kubernetes API what the resource looks like
+        - Comparable to a class/model definition
+
+    - images:
+        - https://i.imgur.com/ivI59ny.png
+
+    - title: "Custom Resources"
+      bullets:
+        - An instance of the CRD
+        - Comparable to a an object created of the class/CRD
+        - Controller/operator reacts to a custom resource
+    - images:
+        - https://i.imgur.com/frcjcUS.png
+    - title: Why create custom resources?
+      bullets:
+        - Automation of operational knowledge
+        - Native Kubernetes experience
+        - Reduce operational overhead
+        - Domain-specific abstractions
+        - "Use cases: provisioning databases, Message que"
+    - title: Use cases?
+      bullets:
+        - Provisining databases
+        - Provisioning message queues
+        - Abstracting complexity
+        - Managing external resources
+        - Generally when native kube resources become too complicated
+    - title: "Operator SDK"
+      bullets:
+        - Tooling/framework for developing operators
+        - Possible to create with helm, kustomize and golang
+    - title: "Operator SDK - golang"
+      bullets:
+        - CLI for handling boilerplate
+        - Define the CRD through golang types
+        - Write the reconciliation loop
+        - Auto-generate manifests
+    - title: "Why Operator SDK?"
+      bullets:
+        - Standardized way to build Kubernetes operators
+        - Takes care of boilerplate code
+        - freedom to implement logic and integrate any tooling/system
+        - Kubernetes is written in golang
+        - strong typing for all resources instead of relying on yaml
+        - DRY
+    - bullets:
+        - Performant
+        - Ecosystem
+        - All benefits of the go programming language
+    - title: "DEMO"
