@@ -11,12 +11,16 @@ spec:
     logo: "https://i.imgur.com/f9KKoJq.png"
   slides:
     - title: "Stop clicking. Start declaring."
-    - title: "Who's awake at 3 AM fixing this?"
+    - title: "Motivation"
+      images:
+        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/problem-toil.gif"
+          alt: "Months of tickets for one endpoint"
       bullets:
-        - "Running software in production = repetitive operational work"
-        - "Provisioning, upgrades, failover, backups, scaling"
-        - "Operational knowledge lives in runbooks, wikis, people's heads"
-        - "Manual steps drift, break, and don't scale with team or fleet"
+        - "Real story: exposing one App through a customer's domain and infra processes"
+        - "Firewall team, security team, Akamai team — months of calls and tickets"
+        - "The code took an afternoon. The ops took a quarter."
+        - "Knowledge trapped in notion, confluence, Slack threads, people's heads"
+        - "Next team that needs this? Starts from zero."
         - "How do we encode operations as code?"
     - title: "Step 1: Kubernetes"
       bullets:
@@ -26,9 +30,12 @@ spec:
         - "Self-healing control loops handle drift and failure"
         - "Solves generic workload ops — not domain-specific ops"
     - title: "Step 2: GitOps"
+      images:
+        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/gitops-sync.gif"
+          alt: "Git commit flows through GitOps agent into cluster"
       bullets:
         - "Git as single source of truth for cluster state"
-        - "ArgoCD / Flux continuously sync repo → cluster"
+        - "Agent continuously syncs repo → cluster"
         - "Auditable, reviewable, reproducible deployments"
         - "But: only as expressive as the resources you apply"
         - "Complex apps still need glue scripts, Helm hacks, manual steps"
