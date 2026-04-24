@@ -57,6 +57,9 @@ spec:
         - "GitOps still works — now over *your* abstractions"
         - "Teaser: the controller is what we build next"
     - title: "Step 4: Operator SDK"
+      images:
+        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/operator-reconcile.gif"
+          alt: "One Presentation CR reconciled into ConfigMap, Deployment, Service, Gateway, HTTPRoute"
       bullets:
         - "Framework for building the controller behind a CRD"
         - "Encodes operational knowledge as a reconciliation loop"
@@ -69,17 +72,4 @@ spec:
         - "Abstract away complex, repetitive setup"
         - "Manage external resources from inside the cluster"
         - "Use cases: databases, message queues, pipelines, tenants"
-    - title: "Operator SDK"
-      bullets:
-        - "Framework for building operators — handles boilerplate"
-        - "Options: Helm, Kustomize, or Go"
-        - "Go flavor: define the CRD via Go types, write the reconcile loop"
-        - "Auto-generates CRD manifests, RBAC, deepcopy code"
-    - title: "Why Operator SDK?"
-      bullets:
-        - "Standardized way to build operators"
-        - "Strong typing instead of untyped YAML"
-        - "Kubernetes is written in Go — native ecosystem"
-        - "Integrate any tooling or external system"
-        - "Performant, DRY, and batteries-included"
     - title: "DEMO"

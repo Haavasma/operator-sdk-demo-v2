@@ -42,14 +42,13 @@ export const Root: React.FC = () => {
         width={squareFormat.width}
         height={squareFormat.height}
       />
-      {/* hero layouts — 16:9 full slide */}
       <Composition
         id="operator-reconcile"
         component={OperatorReconcile}
-        durationInFrames={12 * videoFormat.fps}
-        fps={videoFormat.fps}
-        width={videoFormat.width}
-        height={videoFormat.height}
+        durationInFrames={10 * squareFormat.fps}
+        fps={squareFormat.fps}
+        width={squareFormat.width}
+        height={squareFormat.height}
       />
     </>
   );
