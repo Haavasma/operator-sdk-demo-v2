@@ -107,7 +107,7 @@ export const ProblemToil: React.FC = () => {
         >
           Azure Function App
         </div>
-        <div style={{ fontSize: 30, fontWeight: 600 }}>expose-api</div>
+        <div style={{ fontSize: 30, fontWeight: 600 }}>my-app</div>
         <div
           style={{
             fontSize: 15,

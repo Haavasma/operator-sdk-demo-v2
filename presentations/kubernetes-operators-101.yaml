@@ -11,18 +11,20 @@ spec:
     logo: "https://i.imgur.com/f9KKoJq.png"
   slides:
     - title: "Stop clicking. Start declaring."
-    - title: "Motivation"
+    - title: "Cautionary tale"
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/problem-toil.gif"
           alt: "Months of tickets for one endpoint"
       bullets:
-        - "Real story: exposing one App through a customer's domain and infra processes"
-        - "Firewall team, security team, Akamai team — months of calls and tickets"
+        - "Firewall team, security team, ingress team — months of calls and tickets"
         - "The code took an afternoon. The ops took a quarter."
         - "Knowledge trapped in notion, confluence, Slack threads, people's heads"
         - "Next team that needs this? Starts from zero."
         - "How do we encode operations as code?"
     - title: "Step 1: Kubernetes"
+      images:
+        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/k8s-reconcile.gif"
+          alt: "Kubernetes reconciles desired state: pod dies, controller replaces it"
       bullets:
         - "Declarative orchestrator for containerized workloads"
         - "Desired state in YAML, controllers reconcile toward it"
@@ -52,9 +54,6 @@ spec:
         - "Encodes operational knowledge as a reconciliation loop"
         - "Turn runbooks into code that runs 24/7"
         - "Problem → solved: ops is now declarative, versioned, automated"
-    - title: ""
-      images:
-        - url: "https://cdn.prod.website-files.com/5ff66329429d880392f6cba2/673f4107a915916cd43fbdf8_646786e5646162c532696293_661.2.jpeg"
     - title: "Operator pattern"
       images:
         - url: "https://iximiuz.com/kubernetes-operator-pattern/kube-control-loop-3000-opt.png"

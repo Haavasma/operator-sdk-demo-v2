@@ -19,6 +19,14 @@ export const Root: React.FC = () => {
         height={squareFormat.height}
       />
       <Composition
+        id="k8s-reconcile"
+        component={K8sReconcile}
+        durationInFrames={8 * squareFormat.fps}
+        fps={squareFormat.fps}
+        width={squareFormat.width}
+        height={squareFormat.height}
+      />
+      <Composition
         id="gitops-sync"
         component={GitopsSync}
         durationInFrames={8 * squareFormat.fps}
@@ -35,14 +43,6 @@ export const Root: React.FC = () => {
         height={squareFormat.height}
       />
       {/* hero layouts — 16:9 full slide */}
-      <Composition
-        id="k8s-reconcile"
-        component={K8sReconcile}
-        durationInFrames={10 * videoFormat.fps}
-        fps={videoFormat.fps}
-        width={videoFormat.width}
-        height={videoFormat.height}
-      />
       <Composition
         id="operator-reconcile"
         component={OperatorReconcile}

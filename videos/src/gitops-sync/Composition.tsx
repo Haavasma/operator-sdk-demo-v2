@@ -252,7 +252,7 @@ export const GitopsSync: React.FC = () => {
         </div>
         {kubectlChars >= KUBECTL_CMD.length && (
           <div style={{ color: "#5fd97a", marginTop: 6 }}>
-            deployment.apps/expose-api created
+            deployment.apps/my-app created
           </div>
         )}
       </div>
@@ -288,7 +288,7 @@ export const GitopsSync: React.FC = () => {
         }}
       >
         <div style={{ fontSize: 20, color: theme.fg }}>
-          Deployment/expose-api
+          Deployment/my-app
         </div>
         <div style={{ fontSize: 14, color: theme.muted, marginTop: 3 }}>
           replicas: 3
@@ -326,7 +326,7 @@ const YAML_LINES = [
   { text: "apiVersion: apps/v1", color: theme.fg },
   { text: "kind: Deployment", color: theme.accent },
   { text: "metadata:", color: theme.fg },
-  { text: "  name: expose-api", color: theme.fg },
+  { text: "  name: my-app", color: theme.fg },
   { text: "spec:", color: theme.fg },
   { text: "  replicas: 3", color: theme.accent },
 ];
