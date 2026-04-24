@@ -41,30 +41,27 @@ spec:
         - "But: only as expressive as the resources you apply"
         - "Complex apps still need glue scripts, Helm hacks, manual steps"
     - title: "Step 3: Custom Resources"
+      images:
+        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/crd-abstraction.gif"
+          alt: "Define a CRD for Greeting, then create a Greeting instance"
+      bullets:
+        - "CRD = schema definition (like a class)"
+        - "CR = instance of that type (like an object)"
+        - "kubectl treats CRs like any built-in resource"
+        - "But a CR alone is inert — needs a controller"
+    - title: "So... why bother?"
       bullets:
         - "Extend the Kubernetes API with your own resource types"
         - "Domain-specific abstractions: Database, Presentation, Pipeline"
-        - "Users write high-level specs, not low-level plumbing"
+        - "Developers write high-level specs, not low-level plumbing"
         - "GitOps still works — now over *your* abstractions"
-        - "Needs a controller to give the CRD meaning"
+        - "Teaser: the controller is what we build next"
     - title: "Step 4: Operator SDK"
       bullets:
         - "Framework for building the controller behind a CRD"
         - "Encodes operational knowledge as a reconciliation loop"
         - "Turn runbooks into code that runs 24/7"
         - "Problem → solved: ops is now declarative, versioned, automated"
-    - title: "Operator pattern"
-      images:
-        - url: "https://iximiuz.com/kubernetes-operator-pattern/kube-control-loop-3000-opt.png"
-    - title: "CRD + CR: define the type, then instantiate"
-      images:
-        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/crd-abstraction.gif"
-          alt: "Define a CRD for Greeting, then create a Greeting instance"
-      bullets:
-        - "CRD defines the schema (like a class)"
-        - "CR is an instance of that type (like an object)"
-        - "kubectl treats CRs like any built-in resource"
-        - "A controller gives the CR meaning (next step)"
     - title: "When to reach for a CRD"
       bullets:
         - "Encode operational knowledge as a resource"
