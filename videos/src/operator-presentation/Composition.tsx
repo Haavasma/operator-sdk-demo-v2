@@ -26,7 +26,7 @@ import { theme } from "../theme";
  *   7.0s   Caption: "1 spec → 5 resources · ops knowledge in code"
  *  10.0s   Hold
  */
-export const OperatorReconcile: React.FC = () => {
+export const OperatorPresentation: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 

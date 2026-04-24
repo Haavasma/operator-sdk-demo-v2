@@ -4,7 +4,8 @@ import { ProblemToil } from "./problem-toil/Composition";
 import { K8sReconcile } from "./k8s-reconcile/Composition";
 import { GitopsSync } from "./gitops-sync/Composition";
 import { CrdAbstraction } from "./crd-abstraction/Composition";
-import { OperatorReconcile } from "./operator-reconcile/Composition";
+import { OperatorPresentation } from "./operator-presentation/Composition";
+import { OperatorExposedApp } from "./operator-exposedapp/Composition";
 
 export const Root: React.FC = () => {
   return (
@@ -43,12 +44,21 @@ export const Root: React.FC = () => {
         height={squareFormat.height}
       />
       <Composition
-        id="operator-reconcile"
-        component={OperatorReconcile}
+        id="operator-presentation"
+        component={OperatorPresentation}
         durationInFrames={10 * squareFormat.fps}
         fps={squareFormat.fps}
         width={squareFormat.width}
         height={squareFormat.height}
+      />
+      {/* hero layouts — 16:9 full slide */}
+      <Composition
+        id="operator-exposedapp"
+        component={OperatorExposedApp}
+        durationInFrames={13 * videoFormat.fps}
+        fps={videoFormat.fps}
+        width={videoFormat.width}
+        height={videoFormat.height}
       />
     </>
   );

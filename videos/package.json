@@ -10,14 +10,16 @@
     "render:k8s-reconcile": "remotion render k8s-reconcile out/k8s-reconcile.mp4",
     "render:gitops-sync": "remotion render gitops-sync out/gitops-sync.mp4",
     "render:crd-abstraction": "remotion render crd-abstraction out/crd-abstraction.mp4",
-    "render:operator-reconcile": "remotion render operator-reconcile out/operator-reconcile.mp4",
-    "render:all": "npm run render:problem-toil && npm run render:k8s-reconcile && npm run render:gitops-sync && npm run render:crd-abstraction && npm run render:operator-reconcile",
+    "render:operator-presentation": "remotion render operator-presentation out/operator-presentation.mp4",
+    "render:operator-exposedapp": "remotion render operator-exposedapp out/operator-exposedapp.mp4",
+    "render:all": "npm run render:problem-toil && npm run render:k8s-reconcile && npm run render:gitops-sync && npm run render:crd-abstraction && npm run render:operator-presentation && npm run render:operator-exposedapp",
     "gif:problem-toil": "remotion render problem-toil out/problem-toil.gif --codec=gif --width=1080 --every-nth-frame=2 --number-of-gif-loops=1",
     "gif:k8s-reconcile": "remotion render k8s-reconcile out/k8s-reconcile.gif --codec=gif --width=1080 --every-nth-frame=2 --number-of-gif-loops=1",
     "gif:gitops-sync": "remotion render gitops-sync out/gitops-sync.gif --codec=gif --width=1080 --every-nth-frame=2 --number-of-gif-loops=1",
     "gif:crd-abstraction": "remotion render crd-abstraction out/crd-abstraction.gif --codec=gif --width=1080 --every-nth-frame=2 --number-of-gif-loops=1",
-    "gif:operator-reconcile": "remotion render operator-reconcile out/operator-reconcile.gif --codec=gif --width=1080 --every-nth-frame=2 --number-of-gif-loops=1",
-    "gif:all": "npm run gif:problem-toil && npm run gif:gitops-sync && npm run gif:k8s-reconcile && npm run gif:crd-abstraction && npm run gif:operator-reconcile"
+    "gif:operator-presentation": "remotion render operator-presentation out/operator-presentation.gif --codec=gif --width=1080 --every-nth-frame=2 --number-of-gif-loops=1",
+    "gif:operator-exposedapp": "remotion render operator-exposedapp out/operator-exposedapp.gif --codec=gif --width=1600 --every-nth-frame=2 --number-of-gif-loops=1",
+    "gif:all": "npm run gif:problem-toil && npm run gif:gitops-sync && npm run gif:k8s-reconcile && npm run gif:crd-abstraction && npm run gif:operator-presentation && npm run gif:operator-exposedapp"
   },
   "dependencies": {
     "@remotion/cli": "4.0.380",

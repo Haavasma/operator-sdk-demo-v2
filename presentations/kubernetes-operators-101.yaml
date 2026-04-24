@@ -56,10 +56,11 @@ spec:
         - "Developers write high-level specs, not low-level plumbing"
         - "GitOps still works — now over *your* abstractions"
         - "Teaser: the controller is what we build next"
-    - title: "Step 4: Operator SDK"
+    - title: ""
       images:
-        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/operator-reconcile.gif"
-          alt: "One Presentation CR reconciled into ConfigMap, Deployment, Service, Gateway, HTTPRoute"
+        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/operator-exposedapp.gif"
+          alt: "ExposedApp operator fans out to firewall, security, akamai, DNS, change board — what took months, now seconds"
+    - title: "Step 4: Operator SDK"
       bullets:
         - "Framework for building the controller behind a CRD"
         - "Encodes operational knowledge as a reconciliation loop"
@@ -73,3 +74,13 @@ spec:
         - "Manage external resources from inside the cluster"
         - "Use cases: databases, message queues, pipelines, tenants"
     - title: "DEMO"
+    - title: "What the demo just did"
+      images:
+        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/operator-presentation.gif"
+          alt: "Presentation CR reconciled into ConfigMap, Deployment, Service, Gateway, HTTPRoute"
+      bullets:
+        - "One Presentation CR = five Kubernetes resources"
+        - "ConfigMap: Marp markdown generated from the spec"
+        - "Deployment + Service: marp-cli server"
+        - "Gateway + HTTPRoute: routes <name>.<ns>.localhost"
+        - "All children tied back via ownerReferences"
