@@ -37,7 +37,7 @@ export const Root: React.FC = () => {
       <Composition
         id="crd-abstraction"
         component={CrdAbstraction}
-        durationInFrames={10 * squareFormat.fps}
+        durationInFrames={9 * squareFormat.fps}
         fps={squareFormat.fps}
         width={squareFormat.width}
         height={squareFormat.height}
