@@ -56,16 +56,16 @@ spec:
         - "Developers write high-level specs, not low-level plumbing"
         - "GitOps still works — now over *your* abstractions"
         - "Teaser: the controller is what we build next"
-    - title: ""
-      images:
-        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/operator-exposedapp.gif"
-          alt: "ExposedApp operator fans out to firewall, security, akamai, DNS, change board — what took months, now seconds"
     - title: "Step 4: Operator SDK"
       bullets:
         - "Framework for building the controller behind a CRD"
         - "Encodes operational knowledge as a reconciliation loop"
         - "Turn runbooks into code that runs 24/7"
         - "Problem → solved: ops is now declarative, versioned, automated"
+    - title: ""
+      images:
+        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/operator-exposedapp.gif"
+          alt: "ExposedApp operator fans out to firewall, security, akamai, DNS, change board — what took months, now seconds"
     - title: "When to reach for a CRD"
       bullets:
         - "Encode operational knowledge as a resource"
