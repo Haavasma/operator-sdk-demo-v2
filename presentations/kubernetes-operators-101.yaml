@@ -30,7 +30,6 @@ spec:
         - "Desired state in YAML, controllers reconcile toward it"
         - "Built-in primitives: Deployment, Service, Ingress, ConfigMap..."
         - "Self-healing control loops handle drift and failure"
-        - "Solves generic workload ops — not domain-specific ops"
     - title: "Step 2: GitOps"
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/gitops-sync.gif"
