@@ -16,7 +16,7 @@ spec:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/problem-toil.gif"
           alt: "Months of tickets for one endpoint"
       bullets:
-        - "Firewall team, security team, ingress team — months of calls and tickets"
+        - "Security team, ingress team, DNS — months of calls and tickets, clickops over teams etc."
         - "The code took an afternoon. The ops took a quarter."
         - "Knowledge trapped in notion, confluence, Slack threads, people's heads"
         - "Next team that needs this? Starts from zero."

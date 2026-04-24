@@ -34,12 +34,12 @@ export const ProblemToil: React.FC = () => {
 
   // Orbit radius tightened for square canvas (center 540,500)
   const tickets: TicketProps[] = [
-    { delay: 45, text: "firewall: open 443?", angle: -135, radius: 340 },
-    { delay: 63, text: "security review", angle: -70, radius: 360 },
-    { delay: 81, text: "akamai edge rule", angle: 0, radius: 340 },
-    { delay: 99, text: "DNS request", angle: 65, radius: 360 },
-    { delay: 117, text: "change approval", angle: 135, radius: 340 },
-    { delay: 135, text: "re: re: firewall", angle: 180, radius: 300 },
+    { delay: 45, text: "security review", angle: -135, radius: 340 },
+    { delay: 63, text: "akamai edge rule", angle: -70, radius: 360 },
+    { delay: 81, text: "DNS request", angle: 0, radius: 340 },
+    { delay: 99, text: "change approval", angle: 65, radius: 360 },
+    { delay: 117, text: "re: re: akamai", angle: 135, radius: 340 },
+    { delay: 135, text: "waiting on DNS...", angle: 180, radius: 300 },
   ];
 
   const weekStart = 144;

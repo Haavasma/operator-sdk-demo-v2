@@ -8,33 +8,12 @@ import {
 import { theme } from "../theme";
 
 /**
- * operator-exposedapp — 13s @ 30fps = 390f, 1920x1080 (hero layout)
+ * operator-exposedapp — 12s @ 30fps = 360f, 1920x1080 (hero layout)
  *
- * Payoff for the AMD story: a domain-specific `ExposedApp` operator
- * fans out to the SAME external teams that took months of tickets.
- *
- * Horizontal flow (matches the hero format):
- *   LEFT:   Developer writes `ExposedApp` CR + kubectl apply
- *   MIDDLE: Cluster box containing ExposedApp Operator
- *   RIGHT:  5 external systems (echoing problem-toil tickets):
- *             Firewall · Security · Akamai · DNS · Change board
- *
- * Timeline:
- *   0.0s   Scene fades in
- *   0.3s   YAML types in (ExposedApp spec)
- *   2.5s   Terminal: kubectl apply -f exposedapp.yaml
- *   3.3s   Terminal confirmation
- *   3.8s   Arrow → Operator (crosses into cluster)
- *   4.5s   Operator springs in, pulses
- *   5.3s   Fan-out arrows reach each external system
- *   5.8s   Firewall ✓ NSG rule created
- *   6.6s   Security ✓ flow approved
- *   7.4s   Akamai ✓ edge rule deployed
- *   8.2s   DNS ✓ record published
- *   9.0s   Change board ✓ ticket auto-filed
- *  10.0s   Final URL surfaces: https://api.customer.com/hello · LIVE
- *  11.0s   Callback caption: "what took months → ~90 seconds"
- *  13.0s   Hold
+ * Compact three-column layout. No top title (slide provides context).
+ *   LEFT:   ExposedApp CR + kubectl apply
+ *   MIDDLE: Cluster containing ExposedApp Operator
+ *   RIGHT:  4 external systems (security · akamai · DNS · change board)
  */
 export const OperatorExposedApp: React.FC = () => {
   const frame = useCurrentFrame();
@@ -44,11 +23,9 @@ export const OperatorExposedApp: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  // YAML typing
   const yamlStart = 10;
   const revealedLines = Math.max(0, Math.floor((frame - yamlStart) / 4));
 
-  // Terminal
   const terminalIn = spring({
     frame: frame - 75,
     fps,
@@ -57,7 +34,6 @@ export const OperatorExposedApp: React.FC = () => {
   const kubectlChars = Math.max(0, Math.floor((frame - 85) / 1.2));
   const confirmShow = frame >= 85 + KUBECTL_CMD.length * 1.2;
 
-  // Arrow → operator
   const arrowToOperator = interpolate(frame, [115, 145], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -75,9 +51,8 @@ export const OperatorExposedApp: React.FC = () => {
     config: { damping: 8, stiffness: 130 },
   });
 
-  // External systems — each has its own fan-out arrow + check animation
   const externalStart = 165;
-  const perSystemDelay = 22; // frames between systems
+  const perSystemDelay = 22;
   const externalSystems = EXTERNAL.map((sys, i) => {
     const arrowStart = externalStart + i * perSystemDelay;
     const checkStart = arrowStart + 22;
@@ -97,32 +72,28 @@ export const OperatorExposedApp: React.FC = () => {
     };
   });
 
-  // Final URL + callback caption
-  const urlIn = interpolate(frame, [305, 330], [0, 1], {
+  const urlIn = interpolate(frame, [280, 310], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const captionIn = interpolate(frame, [330, 355], [0, 1], {
+  const captionIn = interpolate(frame, [310, 340], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
   // ── Layout (1920x1080) ──
-  // Left column:    x=40..600  (YAML, terminal)
-  // Middle cluster: x=640..1140 (cluster box w=500)
-  //                 Operator at (x=890 center, y=470)
-  // Right column:   x=1160..1880 (5 external system cards stacked)
+  // Left column:    x=40..580  (w=540)  YAML + terminal
+  // Middle cluster: x=620..1100 (w=480)  Operator at center
+  // Right column:   x=1140..1880 (w=740) 4 external cards
 
-  const operatorCenterX = 890;
-  const operatorCenterY = 540;
-  const operatorHalfH = 80;
+  const operatorCenterX = 860;
+  const operatorCenterY = 500;
 
-  // External card layout
   const extStartY = 180;
-  const extW = 700;
-  const extH = 110;
-  const extGap = 20;
-  const extX = 1180;
+  const extW = 740;
+  const extH = 130;
+  const extGap = 25;
+  const extX = 1140;
 
   return (
     <AbsoluteFill
@@ -132,29 +103,13 @@ export const OperatorExposedApp: React.FC = () => {
         fontFamily: theme.fontFamily,
       }}
     >
-      {/* Title */}
-      <div
-        style={{
-          position: "absolute",
-          top: 40,
-          left: 0,
-          right: 0,
-          textAlign: "center",
-          fontSize: 30,
-          fontWeight: 600,
-          opacity: sceneIn,
-        }}
-      >
-        A domain-specific operator encodes the dance
-      </div>
-
-      {/* ── LEFT: Developer intent ── */}
+      {/* LEFT label + YAML */}
       <div
         style={{
           position: "absolute",
           left: 40,
-          top: 120,
-          fontSize: 16,
+          top: 60,
+          fontSize: 18,
           color: theme.muted,
           fontFamily: theme.mono,
           letterSpacing: 1,
@@ -167,14 +122,14 @@ export const OperatorExposedApp: React.FC = () => {
         style={{
           position: "absolute",
           left: 40,
-          top: 155,
-          width: 560,
-          padding: 16,
+          top: 100,
+          width: 540,
+          padding: 18,
           border: `2px solid ${theme.accent}`,
           borderRadius: 10,
           backgroundColor: "#000",
           fontFamily: theme.mono,
-          fontSize: 19,
+          fontSize: 22,
           lineHeight: 1.55,
           opacity: sceneIn,
         }}
@@ -201,14 +156,14 @@ export const OperatorExposedApp: React.FC = () => {
         style={{
           position: "absolute",
           left: 40,
-          top: 500,
-          width: 560,
-          padding: "12px 16px",
+          top: 480,
+          width: 540,
+          padding: "14px 18px",
           backgroundColor: "#0b0b0b",
           border: `1px solid ${theme.muted}`,
           borderRadius: 8,
           fontFamily: theme.mono,
-          fontSize: 17,
+          fontSize: 19,
           transform: `scale(${terminalIn})`,
           transformOrigin: "top left",
           opacity: terminalIn,
@@ -225,28 +180,28 @@ export const OperatorExposedApp: React.FC = () => {
           <TypedCommand cmd={KUBECTL_CMD} chars={kubectlChars} />
         </div>
         {confirmShow && (
-          <div style={{ color: "#5fd97a", marginTop: 6 }}>
+          <div style={{ color: "#5fd97a", marginTop: 6, fontSize: 17 }}>
             exposedapp.platform.example.com/my-app created
           </div>
         )}
       </div>
 
-      {/* Arrow: Terminal → Operator (horizontal, crossing into cluster) */}
+      {/* Arrow: Terminal → Operator */}
       <HorizontalArrow
-        x1={610}
-        x2={operatorCenterX - 160}
-        y={540}
+        x1={590}
+        x2={operatorCenterX - 170}
+        y={500}
         progress={arrowToOperator}
       />
 
-      {/* ── MIDDLE: Cluster box ── */}
+      {/* MIDDLE: Cluster box */}
       <div
         style={{
           position: "absolute",
-          left: 640,
-          top: 180,
-          width: 500,
-          height: 770,
+          left: 620,
+          top: 150,
+          width: 480,
+          height: 720,
           border: `2px dashed ${theme.muted}`,
           borderRadius: 14,
           opacity: sceneIn,
@@ -258,8 +213,8 @@ export const OperatorExposedApp: React.FC = () => {
             top: -14,
             left: 22,
             backgroundColor: theme.bg,
-            padding: "0 12px",
-            fontSize: 14,
+            padding: "0 14px",
+            fontSize: 16,
             color: theme.muted,
             fontFamily: theme.mono,
             letterSpacing: 1,
@@ -273,10 +228,10 @@ export const OperatorExposedApp: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          left: operatorCenterX - 160,
-          top: operatorCenterY - operatorHalfH,
-          width: 320,
-          height: 160,
+          left: operatorCenterX - 170,
+          top: operatorCenterY - 85,
+          width: 340,
+          height: 170,
           borderRadius: 14,
           border: `3px solid #00ADD8`,
           backgroundColor: theme.dim,
@@ -291,15 +246,15 @@ export const OperatorExposedApp: React.FC = () => {
           opacity: sceneIn,
         }}
       >
-        <GearIcon size={48} />
-        <div style={{ fontSize: 20, fontWeight: 600, marginTop: 6 }}>
+        <GearIcon size={54} />
+        <div style={{ fontSize: 22, fontWeight: 600, marginTop: 8 }}>
           ExposedApp Operator
         </div>
         <div
           style={{
-            fontSize: 12,
+            fontSize: 14,
             color: theme.muted,
-            marginTop: 2,
+            marginTop: 4,
             fontFamily: theme.mono,
           }}
         >
@@ -307,14 +262,14 @@ export const OperatorExposedApp: React.FC = () => {
         </div>
       </div>
 
-      {/* Fan-out arrows from operator to each external system */}
+      {/* Fan-out arrows */}
       {externalSystems.map((sys, i) => {
         const cardTop = extStartY + i * (extH + extGap);
         const cardCenterY = cardTop + extH / 2;
         return (
           <FanArrow
             key={i}
-            x1={operatorCenterX + 160}
+            x1={operatorCenterX + 170}
             y1={operatorCenterY}
             x2={extX}
             y2={cardCenterY}
@@ -323,18 +278,17 @@ export const OperatorExposedApp: React.FC = () => {
         );
       })}
 
-      {/* ── RIGHT: External systems ── */}
+      {/* RIGHT: External systems */}
       <div
         style={{
           position: "absolute",
-          right: 40,
-          top: 120,
-          fontSize: 16,
+          left: extX,
+          top: 130,
+          fontSize: 18,
           color: theme.muted,
           fontFamily: theme.mono,
           letterSpacing: 1,
           opacity: sceneIn,
-          textAlign: "right",
           width: extW,
         }}
       >
@@ -352,35 +306,34 @@ export const OperatorExposedApp: React.FC = () => {
               top: cardTop,
               width: extW,
               height: extH,
-              borderRadius: 10,
+              borderRadius: 12,
               border: `2px solid ${done ? "#5fd97a" : theme.muted}`,
               backgroundColor: done ? "rgba(95,217,122,0.08)" : theme.dim,
               display: "flex",
               alignItems: "center",
-              padding: "0 20px",
+              padding: "0 24px",
               fontFamily: theme.mono,
               opacity: sceneIn,
-              transition: "none",
             }}
           >
-            <div style={{ fontSize: 28, marginRight: 18 }}>{sys.icon}</div>
+            <div style={{ fontSize: 34, marginRight: 22 }}>{sys.icon}</div>
             <div style={{ flex: 1 }}>
               <div
                 style={{
-                  fontSize: 20,
+                  fontSize: 24,
                   fontWeight: 600,
                   color: done ? "#5fd97a" : theme.fg,
                 }}
               >
                 {sys.name}
               </div>
-              <div style={{ fontSize: 14, color: theme.muted, marginTop: 2 }}>
+              <div style={{ fontSize: 17, color: theme.muted, marginTop: 3 }}>
                 {done ? sys.done : sys.pending}
               </div>
             </div>
             <div
               style={{
-                fontSize: 36,
+                fontSize: 44,
                 color: "#5fd97a",
                 opacity: sys.checkIn,
                 transform: `scale(${sys.checkIn})`,
@@ -392,16 +345,16 @@ export const OperatorExposedApp: React.FC = () => {
         );
       })}
 
-      {/* Final URL surface */}
+      {/* Final URL */}
       <div
         style={{
           position: "absolute",
-          bottom: 150,
+          bottom: 110,
           left: 0,
           right: 0,
           textAlign: "center",
           opacity: urlIn,
-          transform: `scale(${0.92 + 0.08 * urlIn})`,
+          transform: `scale(${0.94 + 0.06 * urlIn})`,
         }}
       >
         <div
@@ -415,7 +368,7 @@ export const OperatorExposedApp: React.FC = () => {
         </div>
         <div
           style={{
-            fontSize: 38,
+            fontSize: 36,
             color: "#5fd97a",
             fontFamily: theme.mono,
             marginTop: 6,
@@ -429,23 +382,25 @@ export const OperatorExposedApp: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          bottom: 50,
+          bottom: 40,
           left: 0,
           right: 0,
           textAlign: "center",
-          fontSize: 24,
+          fontSize: 26,
           color: theme.fg,
           fontFamily: theme.fontFamily,
           opacity: captionIn,
         }}
       >
-        what took <span style={{ textDecoration: "line-through", color: theme.muted }}>months</span> → <span style={{ color: "#5fd97a", fontWeight: 600 }}>~90 seconds</span>
+        what took{" "}
+        <span style={{ textDecoration: "line-through", color: theme.muted }}>
+          months
+        </span>{" "}
+        → <span style={{ color: "#5fd97a", fontWeight: 600 }}>~90 seconds</span>
       </div>
     </AbsoluteFill>
   );
 };
-
-// ── YAML ─────────────────────────────────────────
 
 const YAML_LINES = [
   { text: "kind: ExposedApp", color: theme.accent },
@@ -460,15 +415,7 @@ const YAML_LINES = [
 
 const KUBECTL_CMD = "kubectl apply -f exposedapp.yaml";
 
-// ── External systems (callback to problem-toil tickets) ──
-
 const EXTERNAL = [
-  {
-    name: "Firewall",
-    icon: "🧱",
-    pending: "opening port 443...",
-    done: "✓ NSG rule created",
-  },
   {
     name: "Security",
     icon: "🛡",
@@ -495,8 +442,6 @@ const EXTERNAL = [
   },
 ];
 
-// ── Subcomponents ────────────────────────────────
-
 const TypedCommand: React.FC<{ cmd: string; chars: number }> = ({
   cmd,
   chars,
@@ -512,8 +457,8 @@ const TypedCommand: React.FC<{ cmd: string; chars: number }> = ({
 const Dot: React.FC<{ color: string }> = ({ color }) => (
   <span
     style={{
-      width: 9,
-      height: 9,
+      width: 10,
+      height: 10,
       borderRadius: "50%",
       backgroundColor: color,
       display: "inline-block",

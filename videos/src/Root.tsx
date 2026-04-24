@@ -55,7 +55,7 @@ export const Root: React.FC = () => {
       <Composition
         id="operator-exposedapp"
         component={OperatorExposedApp}
-        durationInFrames={13 * videoFormat.fps}
+        durationInFrames={12 * videoFormat.fps}
         fps={videoFormat.fps}
         width={videoFormat.width}
         height={videoFormat.height}
