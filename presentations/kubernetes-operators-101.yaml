@@ -10,8 +10,8 @@ spec:
     fontFamily: "'Neue Haas Grotesk Pro', 'Neue Haas Grotesk', sans-serif"
     logo: "https://pickitmedialive.blob.core.windows.net/34ce-softwareone-thumbnails/VpPa1s7n?sv=2025-11-05&st=2026-04-24T10%3A55%3A57Z&se=2026-04-24T16%3A55%3A57Z&sr=b&sp=r&sig=uEGCuwZ1%2FAZV3L48%2BtyXIxWCK%2F66AKEg%2BeoX5tipME8%3D&rscd=attachment%3B%20filename%3D%22large%22%3B%20filename*%3DUTF-8%27%27large"
   slides:
-    - title: "Operator-sdk: Why and how to make custom resources"
-    - title: "The problem"
+    - title: "Stop clicking. Start declaring."
+    - title: "Who's awake at 3 AM fixing this?"
       bullets:
         - "Running software in production = repetitive operational work"
         - "Provisioning, upgrades, failover, backups, scaling"
