@@ -83,4 +83,3 @@ spec:
         - "ConfigMap: Marp markdown generated from the spec"
         - "Deployment + Service: marp-cli server"
         - "Gateway + HTTPRoute: routes <name>.<ns>.localhost"
-        - "All children tied back via ownerReferences"
