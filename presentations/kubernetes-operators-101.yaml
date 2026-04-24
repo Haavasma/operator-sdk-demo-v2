@@ -5,8 +5,8 @@ metadata:
 spec:
   theme:
     primaryColor: "#FFFFFF"
-    secondaryColor: "#FFFFFF"
-    backgroundColor: "#3366FF"
+    secondaryColor: "#3366FF"
+    backgroundColor: "#000000"
     fontFamily: "'Neue Haas Grotesk Pro', 'Neue Haas Grotesk', sans-serif"
     logo: "https://imgur.com/a/6zNjBiZ"
   slides:
