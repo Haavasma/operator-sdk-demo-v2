@@ -11,7 +11,8 @@ spec:
     logo: "https://i.imgur.com/f9KKoJq.png"
   slides:
     - title: "Stop clicking. Start declaring."
-    - images:
+    - title: ""
+      images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/problem-toil.gif"
           alt: "Months of tickets for one endpoint"
       bullets:
