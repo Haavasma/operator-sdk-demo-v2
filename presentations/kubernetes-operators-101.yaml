@@ -65,7 +65,7 @@ spec:
     - title: ""
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/operator-exposedapp.gif"
-          alt: "ExposedApp operator fans out to firewall, security, akamai, DNS, change board — what took months, now seconds"
+          alt: "ExposedApp operator fans out to security, akamai, DNS, change board — what took months, now seconds"
     - title: "When to reach for a CRD"
       bullets:
         - "Encode operational knowledge as a resource"
