@@ -90,3 +90,4 @@ spec:
         - "CRDs: extend the API with your own domain types"
         - "Operators: encode runbooks as 24/7 reconciliation loops"
         - "Ops becomes code — versioned, reviewable, repeatable"
+        - "TEST UPDATE"
