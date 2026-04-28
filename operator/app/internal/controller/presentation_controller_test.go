@@ -109,7 +109,7 @@ var _ = Describe("Presentation Controller", func() {
 			dep := &appsv1.Deployment{}
 			Expect(k8sClient.Get(ctx, namespacedName, dep)).To(Succeed())
 			Expect(dep.Spec.Template.Spec.Containers).To(HaveLen(1))
-			Expect(dep.Spec.Template.Spec.Containers[0].Image).To(Equal("marpteam/marp-cli:latest"))
+			Expect(dep.Spec.Template.Spec.Containers[0].Image).To(HavePrefix("marpteam/marp-cli@sha256:"))
 			Expect(dep.Spec.Template.Spec.Containers[0].Args).To(Equal([]string{"--server", "/slides/"}))
 			Expect(*dep.Spec.Replicas).To(Equal(int32(1)))
 
@@ -163,6 +163,12 @@ var _ = Describe("Presentation Controller", func() {
 			_, err := reconciler().Reconcile(ctx, reconcile.Request{NamespacedName: namespacedName})
 			Expect(err).NotTo(HaveOccurred())
 
+			By("recording the initial slides-hash annotation on the Deployment")
+			depBefore := &appsv1.Deployment{}
+			Expect(k8sClient.Get(ctx, namespacedName, depBefore)).To(Succeed())
+			hashBefore := depBefore.Spec.Template.Annotations[slidesHashAnnotation]
+			Expect(hashBefore).NotTo(BeEmpty())
+
 			By("updating the slide title")
 			Expect(k8sClient.Get(ctx, namespacedName, p)).To(Succeed())
 			p.Spec.Slides[0].Title = "Updated Title"
@@ -177,6 +183,13 @@ var _ = Describe("Presentation Controller", func() {
 			Expect(k8sClient.Get(ctx, namespacedName, cm)).To(Succeed())
 			Expect(cm.Data["slides.md"]).To(ContainSubstring("# Updated Title"))
 			Expect(cm.Data["slides.md"]).NotTo(ContainSubstring("# Kubernetes Operators"))
+
+			By("verifying the Deployment pod-template hash annotation changed (rolling restart trigger)")
+			depAfter := &appsv1.Deployment{}
+			Expect(k8sClient.Get(ctx, namespacedName, depAfter)).To(Succeed())
+			hashAfter := depAfter.Spec.Template.Annotations[slidesHashAnnotation]
+			Expect(hashAfter).NotTo(BeEmpty())
+			Expect(hashAfter).NotTo(Equal(hashBefore))
 		})
 	})
 

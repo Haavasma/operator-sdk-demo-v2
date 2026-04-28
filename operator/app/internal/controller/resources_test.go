@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"strings"
 	"testing"
 
 	v1alpha1 "github.com/Haavasma/operator-sdk-demo-v2/api/v1alpha1"
@@ -53,7 +54,7 @@ func TestBuildConfigMap(t *testing.T) {
 func TestBuildDeployment(t *testing.T) {
 	p := newTestPresentation()
 
-	dep := buildDeployment(p)
+	dep := buildDeployment(p, "abc123")
 
 	if dep.Name != "my-talk" {
 		t.Errorf("expected name my-talk, got %s", dep.Name)
@@ -70,8 +71,8 @@ func TestBuildDeployment(t *testing.T) {
 		t.Fatalf("expected 1 container, got %d", len(containers))
 	}
 	c := containers[0]
-	if c.Image != "marpteam/marp-cli:latest" {
-		t.Errorf("expected marpteam/marp-cli:latest image, got %s", c.Image)
+	if !strings.HasPrefix(c.Image, "marpteam/marp-cli@sha256:") {
+		t.Errorf("expected marpteam/marp-cli pinned by digest, got %s", c.Image)
 	}
 	if len(c.Args) < 2 || c.Args[0] != "--server" || c.Args[1] != "/slides/" {
 		t.Errorf("expected args [--server /slides/], got %v", c.Args)
@@ -89,6 +90,21 @@ func TestBuildDeployment(t *testing.T) {
 	vols := dep.Spec.Template.Spec.Volumes
 	if len(vols) != 1 || vols[0].ConfigMap.Name != "my-talk" {
 		t.Errorf("expected volume from configmap my-talk, got %v", vols)
+	}
+
+	// Hash annotation must be set on pod template so content change rolls pods.
+	annot := dep.Spec.Template.Annotations[slidesHashAnnotation]
+	if annot != "abc123" {
+		t.Errorf("expected slides-hash annotation %q, got %q", "abc123", annot)
+	}
+}
+
+func TestSlidesHashChangesWithContent(t *testing.T) {
+	if slidesHash("a") == slidesHash("b") {
+		t.Errorf("expected distinct hashes for distinct content")
+	}
+	if slidesHash("same") != slidesHash("same") {
+		t.Errorf("expected stable hash for identical content")
 	}
 }
 
