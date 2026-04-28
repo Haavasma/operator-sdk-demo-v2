@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"strings"
 	"testing"
 
 	v1alpha1 "github.com/Haavasma/operator-sdk-demo-v2/api/v1alpha1"
@@ -70,8 +71,8 @@ func TestBuildDeployment(t *testing.T) {
 		t.Fatalf("expected 1 container, got %d", len(containers))
 	}
 	c := containers[0]
-	if c.Image != "marpteam/marp-cli:latest" {
-		t.Errorf("expected marpteam/marp-cli:latest image, got %s", c.Image)
+	if !strings.HasPrefix(c.Image, "marpteam/marp-cli@sha256:") {
+		t.Errorf("expected marpteam/marp-cli pinned by digest, got %s", c.Image)
 	}
 	if len(c.Args) < 2 || c.Args[0] != "--server" || c.Args[1] != "/slides/" {
 		t.Errorf("expected args [--server /slides/], got %v", c.Args)

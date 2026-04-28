@@ -109,7 +109,7 @@ var _ = Describe("Presentation Controller", func() {
 			dep := &appsv1.Deployment{}
 			Expect(k8sClient.Get(ctx, namespacedName, dep)).To(Succeed())
 			Expect(dep.Spec.Template.Spec.Containers).To(HaveLen(1))
-			Expect(dep.Spec.Template.Spec.Containers[0].Image).To(Equal("marpteam/marp-cli:latest"))
+			Expect(dep.Spec.Template.Spec.Containers[0].Image).To(HavePrefix("marpteam/marp-cli@sha256:"))
 			Expect(dep.Spec.Template.Spec.Containers[0].Args).To(Equal([]string{"--server", "/slides/"}))
 			Expect(*dep.Spec.Replicas).To(Equal(int32(1)))
 

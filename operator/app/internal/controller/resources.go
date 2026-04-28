@@ -71,7 +71,7 @@ func buildDeployment(p *v1alpha1.Presentation, slidesContentHash string) *appsv1
 					Containers: []corev1.Container{
 						{
 							Name:  "marp-server",
-							Image: "marpteam/marp-cli:latest",
+							Image: "marpteam/marp-cli@sha256:ba296e6d50c99c30e1951381509879a49b120776b32e380091f12387d5e34d97",
 							Args:  []string{"--server", "/slides/"},
 							Ports: []corev1.ContainerPort{
 								{
@@ -104,8 +104,8 @@ func buildDeployment(p *v1alpha1.Presentation, slidesContentHash string) *appsv1
 										Port: intstr.FromInt32(8080),
 									},
 								},
-								InitialDelaySeconds: 3,
-								PeriodSeconds:       5,
+								InitialDelaySeconds: 1,
+								PeriodSeconds:       2,
 							},
 						},
 					},
