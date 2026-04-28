@@ -55,7 +55,6 @@ spec:
         - "Domain-specific abstractions: Database, Presentation, Pipeline"
         - "Developers write high-level specs, not low-level plumbing"
         - "GitOps still works — now over *your* abstractions"
-        - "Teaser: the controller is what we build next"
     - title: "Step 4: Operator SDK"
       bullets:
         - "Framework for building the controller behind a CRD"
@@ -66,13 +65,13 @@ spec:
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/operator-exposedapp.gif"
           alt: "ExposedApp operator fans out to security, akamai, DNS, change board — what took months, now seconds"
-    - title: "When to reach for a CRD"
+    - title: "When to reach for a CRD (and when not to)"
       bullets:
-        - "Encode operational knowledge as a resource"
-        - "Provide a native Kubernetes experience"
-        - "Abstract away complex, repetitive setup"
-        - "Manage external resources from inside the cluster"
-        - "Use cases: databases, message queues, pipelines, tenants"
+        - "Reach for one when: ops is repeated across teams, runbook is stable, lifecycle is non-trivial"
+        - "Reach for one when: you manage external state (cloud resources, SaaS, databases) from the cluster"
+        - "Skip it when: a Helm chart, Job, or plain Deployment already does the job"
+        - "Skip it when: the abstraction is one team, one app — premature platform"
+        - "Operators are leverage. Don't build leverage you won't reuse."
     - title: "DEMO"
     - title: "What the demo just showed"
       images:
@@ -90,3 +89,4 @@ spec:
         - "CRDs: extend the API with your own domain types"
         - "Operators: encode runbooks as 24/7 reconciliation loops"
         - "Ops becomes code — versioned, reviewable, repeatable"
+        - "Check it out yourself: github.com/Haavasma/operator-sdk-demo-v2"
