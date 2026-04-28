@@ -83,6 +83,7 @@ spec:
         - "ConfigMap: Marp markdown generated from the spec"
         - "Deployment + Service: marp-cli server"
         - "Gateway + HTTPRoute: routes <name>.<ns>.localhost"
+        - "test update"
     - title: "Stop clicking. Start declaring."
       bullets:
         - "Kubernetes: declarative orchestration, self-healing loops"
