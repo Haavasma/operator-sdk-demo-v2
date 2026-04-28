@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 
 	v1alpha1 "github.com/Haavasma/operator-sdk-demo-v2/api/v1alpha1"
@@ -11,6 +13,13 @@ import (
 	"k8s.io/utils/ptr"
 	gatewayv1 "sigs.k8s.io/gateway-api/apis/v1"
 )
+
+const slidesHashAnnotation = "presentations.haavard.dev/slides-hash"
+
+func slidesHash(marpContent string) string {
+	sum := sha256.Sum256([]byte(marpContent))
+	return hex.EncodeToString(sum[:])
+}
 
 func labels(name string) map[string]string {
 	return map[string]string{
@@ -37,7 +46,7 @@ func buildConfigMap(p *v1alpha1.Presentation, marpContent string) *corev1.Config
 	}
 }
 
-func buildDeployment(p *v1alpha1.Presentation) *appsv1.Deployment {
+func buildDeployment(p *v1alpha1.Presentation, slidesContentHash string) *appsv1.Deployment {
 	return &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      p.Name,
@@ -54,6 +63,9 @@ func buildDeployment(p *v1alpha1.Presentation) *appsv1.Deployment {
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Labels: labels(p.Name),
+					Annotations: map[string]string{
+						slidesHashAnnotation: slidesContentHash,
+					},
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{

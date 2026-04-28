@@ -95,12 +95,17 @@ func (r *PresentationReconciler) Reconcile(ctx context.Context, req ctrl.Request
 	}
 	log.Info("Reconciled ConfigMap", "operation", op)
 
-	// Reconcile Deployment
+	// Reconcile Deployment.
+	// Embed a hash of the slides content as a pod-template annotation so any
+	// change in the rendered Marp markdown triggers a rolling restart, side-stepping
+	// the kubelet's 60-90s ConfigMap volume sync delay and any flaky in-process
+	// file watching inside marp-cli's --server mode.
+	contentHash := slidesHash(marpContent)
 	dep := &appsv1.Deployment{}
 	dep.Name = presentation.Name
 	dep.Namespace = presentation.Namespace
 	op, err = controllerutil.CreateOrUpdate(ctx, r.Client, dep, func() error {
-		desired := buildDeployment(&presentation)
+		desired := buildDeployment(&presentation, contentHash)
 		dep.Spec = desired.Spec
 		dep.Labels = desired.Labels
 		return controllerutil.SetControllerReference(&presentation, dep, r.Scheme)

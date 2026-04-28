@@ -53,7 +53,7 @@ func TestBuildConfigMap(t *testing.T) {
 func TestBuildDeployment(t *testing.T) {
 	p := newTestPresentation()
 
-	dep := buildDeployment(p)
+	dep := buildDeployment(p, "abc123")
 
 	if dep.Name != "my-talk" {
 		t.Errorf("expected name my-talk, got %s", dep.Name)
@@ -89,6 +89,21 @@ func TestBuildDeployment(t *testing.T) {
 	vols := dep.Spec.Template.Spec.Volumes
 	if len(vols) != 1 || vols[0].ConfigMap.Name != "my-talk" {
 		t.Errorf("expected volume from configmap my-talk, got %v", vols)
+	}
+
+	// Hash annotation must be set on pod template so content change rolls pods.
+	annot := dep.Spec.Template.Annotations[slidesHashAnnotation]
+	if annot != "abc123" {
+		t.Errorf("expected slides-hash annotation %q, got %q", "abc123", annot)
+	}
+}
+
+func TestSlidesHashChangesWithContent(t *testing.T) {
+	if slidesHash("a") == slidesHash("b") {
+		t.Errorf("expected distinct hashes for distinct content")
+	}
+	if slidesHash("same") != slidesHash("same") {
+		t.Errorf("expected stable hash for identical content")
 	}
 }
 
