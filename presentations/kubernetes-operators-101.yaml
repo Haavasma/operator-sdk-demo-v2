@@ -83,3 +83,10 @@ spec:
         - "ConfigMap: Marp markdown generated from the spec"
         - "Deployment + Service: marp-cli server"
         - "Gateway + HTTPRoute: routes <name>.<ns>.localhost"
+    - title: "Stop clicking. Start declaring."
+      bullets:
+        - "Kubernetes: declarative orchestration, self-healing loops"
+        - "GitOps: repo as source of truth, continuous sync"
+        - "CRDs: extend the API with your own domain types"
+        - "Operators: encode runbooks as 24/7 reconciliation loops"
+        - "Ops becomes code — versioned, reviewable, repeatable"
