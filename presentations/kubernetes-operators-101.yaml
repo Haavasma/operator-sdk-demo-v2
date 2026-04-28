@@ -74,7 +74,7 @@ spec:
         - "Manage external resources from inside the cluster"
         - "Use cases: databases, message queues, pipelines, tenants"
     - title: "DEMO"
-    - title: "What the demo just did"
+    - title: "What the demo just showed"
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/operator-presentation.gif"
           alt: "Presentation CR reconciled into ConfigMap, Deployment, Service, Gateway, HTTPRoute"

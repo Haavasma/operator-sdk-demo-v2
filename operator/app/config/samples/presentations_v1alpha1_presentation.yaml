@@ -6,4 +6,15 @@ metadata:
     app.kubernetes.io/managed-by: kustomize
   name: presentation-sample
 spec:
-  # TODO(user): Add fields here
+  theme:
+    logo: "https://...."
+    primaryColor: "#000000"
+    secondaryColor: "#FFFFFF"
+  slides:
+    - title: "initial title"
+      bullets:
+        - "first bullet"
+        - "another bullet"
+      images:
+        - "https://"
+        - "https://..."
