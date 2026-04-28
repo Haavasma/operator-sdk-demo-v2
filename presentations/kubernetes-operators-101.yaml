@@ -10,7 +10,7 @@ spec:
     fontFamily: "'Neue Haas Grotesk Pro', 'Neue Haas Grotesk', sans-serif"
     logo: "https://i.imgur.com/f9KKoJq.png"
   slides:
-    - title: "Stop clicking. Start declaring. TEST UPDATE"
+    - title: "Stop clicking. Start declaring."
     - title: ""
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/problem-toil.gif"
