@@ -56,6 +56,9 @@ spec:
         - "Developers write high-level specs, not low-level plumbing"
         - "GitOps still works — now over *your* abstractions"
     - title: "Step 4: Operator SDK"
+      images:
+        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/operator-reconcile.gif"
+          alt: "Controller reconciliation loop: watch CR, diff desired vs actual, apply"
       bullets:
         - "Framework for building the controller behind a CRD"
         - "Encodes operational knowledge as a reconciliation loop"
