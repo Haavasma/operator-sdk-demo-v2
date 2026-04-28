@@ -6,6 +6,7 @@ import { GitopsSync } from "./gitops-sync/Composition";
 import { CrdAbstraction } from "./crd-abstraction/Composition";
 import { OperatorPresentation } from "./operator-presentation/Composition";
 import { OperatorExposedApp } from "./operator-exposedapp/Composition";
+import { OperatorReconcile } from "./operator-reconcile/Composition";
 
 export const Root: React.FC = () => {
   return (
@@ -47,6 +48,14 @@ export const Root: React.FC = () => {
         id="operator-presentation"
         component={OperatorPresentation}
         durationInFrames={10 * squareFormat.fps}
+        fps={squareFormat.fps}
+        width={squareFormat.width}
+        height={squareFormat.height}
+      />
+      <Composition
+        id="operator-reconcile"
+        component={OperatorReconcile}
+        durationInFrames={8 * squareFormat.fps}
         fps={squareFormat.fps}
         width={squareFormat.width}
         height={squareFormat.height}
