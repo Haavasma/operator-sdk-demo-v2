@@ -17,6 +17,8 @@ We want a `.pptx` that can be emailed, opened offline in PowerPoint, and read wi
 
 The export is a **deliverable, not a source format** — the CR remains the place to edit slides — so we take the flattened variant and accept that the pptx is not editable.
 
+A `deck.pdf` is emitted from the same markdown in the same build. It is not a second deliverable so much as the review surface: unlike the rasterised pptx it retains selectable text, embeds the vendored font, and carries the speaker notes as PDF annotations, which makes font fallbacks and text problems verifiable mechanically rather than by eye.
+
 ### One renderer, two decks: a title-anchored overlay
 
 The export is produced by `operator/app/cmd/marpgen`, which reuses `controller.GenerateMarpMarkdown` — the same template the operator runs in-cluster. The export-only differences live in `export/overlay.yaml` and are applied by `internal/export`:
@@ -45,9 +47,15 @@ Command output is rendered as a styled terminal window rather than photographed 
 
 The deck's brand font (Neue Haas Grotesk Pro) is licensed and absent from render machines and the marp container, where it silently falls back to DejaVu Sans. Since a flattened pptx bakes pixels, the export vendors Inter (SIL OFL) and embeds it as base64 `@font-face`, so exports render identically everywhere and fully offline.
 
+Two fallbacks remain, both deliberate rather than silent: inline `code` spans use the system monospace (Inter has no monospace companion), and `→` (U+2192) is absent from every `@fontsource` Inter subset — the latin subset ships U+2191 and U+2193 but not U+2192 — so the two slides containing an arrow borrow that single glyph from Liberation Sans. Vendoring a full ~1 MB Inter for one glyph is not worth it; instead `make validate` asserts that no *page of body text* renders without Inter, which is what a real fallback looks like.
+
 ### marp-cli in Docker
 
-The export runs the pinned `marpteam/marp-cli` image, which bundles its own Chromium. This matches the image family the operator already deploys and avoids depending on a local browser. A PNG sidecar (`--images png`) is generated alongside the pptx: every slide is a rasterised image, so layout regressions are otherwise invisible until someone presents.
+The export runs the pinned `marpteam/marp-cli` image, which bundles its own Chromium. This matches the image family the operator already deploys and avoids depending on a local browser. Every format (pptx, pdf, PNG sidecar) is produced from one markdown render in one build, so they cannot disagree; the PNG sidecar exists because each pptx slide is a rasterised image, and layout regressions are otherwise invisible until someone presents.
+
+### Verification is mechanical
+
+`make validate` (run automatically by `make build`) checks the artefacts rather than the source: pptx slide/notes/media counts and 16:9 geometry, PDF page count plus embedded fonts and note annotations, and the content bounding box of every slide PNG — the last of which is how the long-standing image-overflow bug was actually found. Half-bleed background slides legitimately touch the right edge and are reported as such rather than failing.
 
 ### Generated assets are published, not committed
 

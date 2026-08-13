@@ -81,9 +81,14 @@ marp() {
 step "Exporting deck.pptx (flattened) with ${MARP_IMAGE}"
 marp export/dist/deck.md --pptx -o export/dist/deck.pptx
 
+# --pdf-notes puts the speaker notes on their own page after each slide, which
+# is what makes the PDF readable as a handout rather than just slide images.
+step "Exporting deck.pdf (for review and as a handout)"
+marp export/dist/deck.md --pdf --pdf-notes --pdf-outlines -o export/dist/deck.pdf
+
 step "Exporting PNG sidecar for review"
 marp export/dist/deck.md --images png -o export/dist/png/deck.png
 
 step "Done"
-ls -la "${DIST}/deck.pptx"
+ls -la "${DIST}/deck.pptx" "${DIST}/deck.pdf"
 ls "${DIST}/png" | head -30

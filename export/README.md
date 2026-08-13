@@ -8,7 +8,9 @@ presentations/kubernetes-operators-101.yaml   canonical deck (deployed by ArgoCD
         -> marpgen                            the operator's own Marp template
         -> export/dist/deck.md
         -> marp-cli (Docker, pinned)
-        -> export/dist/deck.pptx  +  export/dist/png/deck.NNN.png
+        -> export/dist/deck.pptx      flattened handout (each slide is an image)
+           export/dist/deck.pdf       selectable text, notes as PDF annotations
+           export/dist/png/deck.NNN.png   one PNG per slide, for review
 ```
 
 The live deck is never modified: the overlay replaces the `DEMO` slide with a
@@ -20,11 +22,22 @@ See [ADR-006](../docs/adrs/006-presentation-export.md) for the reasoning.
 ## Build
 
 ```bash
-make -C export pptx        # -> export/dist/deck.pptx (16 slides)
+make -C export build       # -> deck.pptx + deck.pdf + png/ (16 slides)
 ```
 
-Requires Docker and network access. Missing assets are downloaded from the
-`export-v1` release tag; nothing else is needed for a plain rebuild.
+`make pptx` and `make pdf` are aliases: one markdown render feeds every format,
+so they can never disagree. Requires Docker and network access — missing assets
+are downloaded from the `export-v1` release tag, and nothing else is needed for
+a plain rebuild.
+
+To validate the result, the PDF is the best surface: unlike the flattened pptx
+it keeps selectable text, embeds Inter, and carries the speaker notes as
+annotations. The `png/` sidecar is the quickest way to eyeball all 16 slides.
+
+`make build` also runs `make validate`, which checks slide/notes counts, 16:9
+geometry, embedded fonts (a fallback in body text fails the build) and the
+content bounding box of every slide, so an image overflowing the slide or a
+missing asset fails loudly instead of at presentation time.
 
 ## Regenerating assets
 
@@ -43,6 +56,8 @@ needs Docker and host ports 80/443.
 
 ```bash
 make -C export md        # markdown only (fast, no Docker, no assets)
+make -C export pdf       # same build as `pptx`/`build` (all formats)
+make -C export validate  # mechanical checks on the built artefacts
 make -C export verify    # go test for the overlay/CSS transformations
 make -C export clean     # rm -rf export/dist
 ```

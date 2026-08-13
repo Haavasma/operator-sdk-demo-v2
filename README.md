@@ -174,7 +174,7 @@ The demo deck can be exported to a handout `.pptx`, rendered from the same
 `Presentation` CR the operator serves live:
 
 ```bash
-make -C export pptx    # -> export/dist/deck.pptx
+make -C export build   # -> export/dist/deck.pptx, deck.pdf, png/deck.NNN.png
 ```
 
 The export replaces the live `DEMO` slide with screenshots captured from a real
