@@ -1,0 +1,11 @@
+{
+  "name": "operator-sdk-demo-export",
+  "version": "1.0.0",
+  "description": "Offline deck export tooling (screenshots for the pptx build)",
+  "private": true,
+  "type": "commonjs",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "puppeteer-core": "^23.11.1"
+  }
+}
