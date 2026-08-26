@@ -65,7 +65,7 @@ func (r *PresentationReconciler) Reconcile(ctx context.Context, req ctrl.Request
 	}
 
 	// Generate Marp markdown
-	marpContent, err := GenerateMarpMarkdown(presentation.Spec)
+	marpContent, err := GenerateMarpMarkdownForServer(presentation.Spec)
 	if err != nil {
 		meta.SetStatusCondition(&presentation.Status.Conditions, metav1.Condition{
 			Type:               "Ready",

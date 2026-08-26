@@ -389,6 +389,38 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 	}
 }
 
+func TestGenerateMarpMarkdownForServer_IncludesGifReplayScript(t *testing.T) {
+	spec := v1alpha1.PresentationSpec{
+		Theme: v1alpha1.ThemeSpec{
+			PrimaryColor:    "#000",
+			SecondaryColor:  "#111",
+			BackgroundColor: "#fff",
+			FontFamily:      "Arial",
+		},
+		Slides: []v1alpha1.SlideSpec{
+			{Title: "Slide", Bullets: []string{"A"}},
+		},
+	}
+
+	server, err := GenerateMarpMarkdownForServer(spec)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if !strings.Contains(server, "<script>") {
+		t.Error("expected server markdown to contain the GIF replay script")
+	}
+
+	// The export path (marpgen) must stay script-free: raw HTML would end up
+	// as escaped text in the flattened pptx/pdf.
+	plain, err := GenerateMarpMarkdown(spec)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if strings.Contains(plain, "<script>") {
+		t.Error("expected export markdown to NOT contain any script")
+	}
+}
+
 func TestGenerateMarpMarkdown_MultipleSlidesHaveSeparator(t *testing.T) {
 	spec := v1alpha1.PresentationSpec{
 		Theme: v1alpha1.ThemeSpec{

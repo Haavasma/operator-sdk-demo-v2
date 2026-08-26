@@ -74,8 +74,8 @@ func TestBuildDeployment(t *testing.T) {
 	if !strings.HasPrefix(c.Image, "marpteam/marp-cli@sha256:") {
 		t.Errorf("expected marpteam/marp-cli pinned by digest, got %s", c.Image)
 	}
-	if len(c.Args) < 2 || c.Args[0] != "--server" || c.Args[1] != "/slides/" {
-		t.Errorf("expected args [--server /slides/], got %v", c.Args)
+	if len(c.Args) != 3 || c.Args[0] != "--server" || c.Args[1] != "--html" || c.Args[2] != "/slides/" {
+		t.Errorf("expected args [--server --html /slides/], got %v", c.Args)
 	}
 	if c.Ports[0].ContainerPort != 8080 {
 		t.Errorf("expected port 8080, got %d", c.Ports[0].ContainerPort)

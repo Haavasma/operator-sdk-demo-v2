@@ -14,9 +14,7 @@ import { theme } from "../theme";
  *   0.0s  App card springs in (centered)
  *   1.0s  "goal: expose one endpoint" caption below
  *   1.5s  Tickets orbit in (6 total, reduced radius)
- *   4.8s  Week counter ticks 1 → 14 (bottom)
- *   6.5s  Dim overlay, punchline emerges
- *   7.8s  Fade
+ *   4.8s  Week counter ticks 1 → 14 (bottom), holds to end
  */
 export const ProblemToil: React.FC = () => {
   const frame = useCurrentFrame();
@@ -53,25 +51,6 @@ export const ProblemToil: React.FC = () => {
   const weekOpacity = interpolate(frame, [weekStart, weekStart + 12], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
-  });
-
-  const freezeStart = 195;
-  const dimOpacity = interpolate(
-    frame,
-    [freezeStart, freezeStart + 15],
-    [0, 0.72],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-  );
-  const punchlineOpacity = interpolate(
-    frame,
-    [freezeStart + 15, freezeStart + 30],
-    [0, 1],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-  );
-  const punchlineScale = spring({
-    frame: frame - (freezeStart + 15),
-    fps,
-    config: { damping: 10, stiffness: 120 },
   });
 
   return (
@@ -163,44 +142,6 @@ export const ProblemToil: React.FC = () => {
           }}
         >
           week {weekCount}
-        </div>
-      </div>
-
-      {/* Freeze dim */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: `rgba(0, 0, 0, ${dimOpacity})`,
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* Punchline */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          opacity: punchlineOpacity,
-          transform: `scale(${0.9 + 0.1 * punchlineScale})`,
-        }}
-      >
-        <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 96, fontWeight: 700, letterSpacing: -2 }}>
-            months.
-          </div>
-          <div
-            style={{
-              fontSize: 34,
-              color: theme.muted,
-              marginTop: 12,
-            }}
-          >
-            for one endpoint.
-          </div>
         </div>
       </div>
     </AbsoluteFill>
