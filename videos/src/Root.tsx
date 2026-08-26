@@ -15,7 +15,7 @@ export const Root: React.FC = () => {
       <Composition
         id="problem-toil"
         component={ProblemToil}
-        durationInFrames={8 * squareFormat.fps}
+        durationInFrames={7 * squareFormat.fps}
         fps={squareFormat.fps}
         width={squareFormat.width}
         height={squareFormat.height}

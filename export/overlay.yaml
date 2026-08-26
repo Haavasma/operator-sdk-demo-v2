@@ -1,0 +1,116 @@
+# Export overlay: the difference between the deck the cluster serves and the
+# deck you hand out as a .pptx.
+#
+# The canonical deck lives in presentations/kubernetes-operators-101.yaml and is
+# deployed by ArgoCD. This file is never applied to a cluster — it is consumed by
+# `marpgen -overlay` (see export/Makefile), which applies these ops to the
+# canonical spec and renders the result with the operator's own Marp template.
+#
+# Three jobs:
+#   1. theme      — swap the paid brand font for the vendored, embeddable Inter
+#   2. rewrites   — point every image at a local file so the render is offline
+#                   and animated GIFs become their final, fully-drawn frame
+#   3. ops        — replace the live "DEMO" slide with screenshot evidence
+#
+# Anchors are slide titles: if the canonical deck is reordered the export still
+# works, and if an anchored slide is renamed the build fails loudly instead of
+# quietly producing a wrong deck.
+
+theme:
+  # Neue Haas Grotesk Pro is licensed and absent from render machines and the
+  # marp container, where it would silently fall back to DejaVu Sans. Inter is
+  # a free grotesk of the same lineage, embedded via @font-face (export/css).
+  fontFamily: "'InterExport', 'Inter', sans-serif"
+
+imageRewrites:
+  # Animated GIFs cannot animate in a flattened pptx and would be captured on
+  # frame 0 (an empty canvas). Final-frame stills are rendered by
+  # `npm run still:all` in videos/ and copied into dist by export/scripts/build.sh.
+  - match: '^https://github\.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/(.+)\.gif$'
+    replace: "assets/stills/$1.png"
+  # The header logo, so the export renders with no network at all.
+  - match: '^https://i\.imgur\.com/f9KKoJq\.png$'
+    replace: "assets/brand/logo.png"
+
+ops:
+  # A handout cannot do a live demo. Replace it with the demo's evidence.
+  - replaceSlideTitle: "DEMO"
+    slides:
+      - title: "The demo, in five commands"
+        bullets:
+          - "What follows is the live demo, captured from a real cluster"
+          - "One CR in git, reconciled by the operator, served over Gateway API"
+          - "Every screenshot below is real output — nothing staged"
+        notes: >-
+          In the talk this is a live demo. In this handout the next four slides
+          are the actual captured output of that demo, taken from the k3d cluster
+          created by infra/bootstrap.sh with the operator deployed by ArgoCD.
+
+      - title: "1. The spec a developer writes"
+        images:
+          - url: "assets/screens/01-spec.png"
+            alt: "The Presentation custom resource YAML"
+        bullets:
+          - "A theme, then a list of slides — no Kubernetes plumbing"
+          - "No Deployment, no Service, no routing, no hostnames"
+          - "Committed to git; ArgoCD applies it to the cluster"
+        notes: >-
+          The whole point of a CRD: the developer's YAML describes the domain
+          (slides, colours, a logo), not the infrastructure. Compare this with
+          the five resources it takes to actually serve a deck — that
+          translation is the operational knowledge we moved into code.
+
+      - title: "2. Kubernetes learned a new noun"
+        images:
+          - url: "assets/screens/02-apply.png"
+            alt: "kubectl apply and kubectl get presentation output"
+        bullets:
+          - "`kubectl apply` — the CR is accepted and validated by the API server"
+          - "`presentations.haavard.dev` is now a first-class resource type"
+          - "Ready and URL columns come from the CR's status subresource"
+        notes: >-
+          Two things worth pointing out. First, kubectl needed no plugin: the CRD
+          taught the API server this type, so RBAC, dry-run, and get/describe all
+          work for free. Second, the operator reports back through status
+          conditions — that Ready column is the reconciliation loop talking.
+
+      - title: "3. One spec became five resources"
+        images:
+          - url: "assets/screens/03-children.png"
+            alt: "The ConfigMap, Deployment, Service, Gateway and HTTPRoute owned by the CR"
+        bullets:
+          - "ConfigMap: Marp markdown generated from the spec"
+          - "Deployment + Service: the marp-cli server"
+          - "Gateway + HTTPRoute: routes `<name>.<ns>.localhost`"
+          - "Every child has an ownerReference back to the CR — delete the CR, all five go"
+        notes: >-
+          The OWNER-KIND / OWNER columns are the important ones. The operator does not track
+          what it created in a database; ownerReferences make Kubernetes'
+          garbage collector responsible for cleanup, and they are also how the
+          controller watches its own children and reacts when someone edits or
+          deletes one.
+
+      - title: "4. It's live"
+        images:
+          - url: "assets/screens/04-deck.png"
+            alt: "The rendered deck served in a browser"
+        notes: >-
+          This deck, served by the resources on the previous slide, at
+          http://kubernetes-operators-101.demos.localhost. Marp runs in server
+          mode, so a change to the CR regenerates the ConfigMap and the served
+          deck follows — no image build, no restart.
+
+      - title: "5. GitOps closes the loop"
+        images:
+          - url: "assets/screens/05-argocd.png"
+            alt: "The ArgoCD app-of-apps tree syncing the operator and the presentations"
+        notes: >-
+          Nothing here was applied by hand. The root Application syncs the
+          operator and the presentations from the repo, and ArgoCD Image Updater
+          rolls out new operator builds. The custom resource is just another
+          file in git — which is exactly the payoff: your operational knowledge
+          is now reviewable, versioned, and self-healing.
+
+  # The old recap slide restated "one CR = five resources", which walkthrough
+  # step 3 now shows directly with real output.
+  - removeSlideTitle: "What the demo just showed"

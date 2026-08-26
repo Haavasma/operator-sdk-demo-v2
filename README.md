@@ -90,6 +90,7 @@ All child resources have `ownerReferences` back to the Presentation CR, so delet
 ├── platform/
 │   └── apps/                 # ArgoCD Application CRs (app-of-apps)
 ├── presentations/            # Presentation CR instances (demo content)
+├── export/                   # Offline .pptx export of the demo deck
 ├── docs/adrs/                # Architecture Decision Records
 ├── Tiltfile                  # Live-reload local development
 └── .github/workflows/ci.yaml # CI: build & push to ghcr.io
@@ -166,6 +167,20 @@ Pushes to `main` and version tags trigger a GitHub Actions workflow that builds 
 - `v*` — semver releases
 
 ArgoCD Image Updater watches for new images and automatically updates the operator deployment (no manifest commits needed).
+
+## Exporting a deck as .pptx
+
+The demo deck can be exported to a handout `.pptx`, rendered from the same
+`Presentation` CR the operator serves live:
+
+```bash
+make -C export build   # -> export/dist/deck.pptx, deck.pdf, png/deck.NNN.png
+```
+
+The export replaces the live `DEMO` slide with screenshots captured from a real
+cluster, freezes the animated diagrams to their final frame, and embeds its
+fonts so it renders identically offline. See [export/README.md](export/README.md)
+and [ADR-006](docs/adrs/006-presentation-export.md).
 
 ## Teardown
 
