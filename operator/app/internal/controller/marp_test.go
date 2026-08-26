@@ -367,6 +367,37 @@ func TestGenerateMarpMarkdown(t *testing.T) {
 				"h2 { color: #f6f8fa; }",
 			},
 		},
+		{
+			name: "cover layout renders full-bleed bg image without header or title",
+			spec: v1alpha1.PresentationSpec{
+				Theme: v1alpha1.ThemeSpec{
+					PrimaryColor:    "#000",
+					SecondaryColor:  "#111",
+					BackgroundColor: "#fff",
+					FontFamily:      "Arial",
+					Logo:            "https://example.com/logo.png",
+				},
+				Slides: []v1alpha1.SlideSpec{
+					{
+						Title:  "",
+						Layout: "cover",
+						Images: []v1alpha1.ImageSpec{
+							{URL: "https://example.com/cover.png", Alt: "Cover"},
+						},
+					},
+					{Title: "Next", Bullets: []string{"A"}},
+				},
+			},
+			contains: []string{
+				"<!-- _header: '' -->",
+				"![bg cover Cover](https://example.com/cover.png)",
+				"# Next",
+			},
+			notContains: []string{
+				"<!-- _class: has-images -->",
+				"![Cover](https://example.com/cover.png)",
+			},
+		},
 	}
 
 	for _, tt := range tests {

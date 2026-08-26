@@ -38,6 +38,24 @@ header: '![logo]({{.Theme.Logo}})'
 {{- if $i}}
 ---
 {{end}}
+{{- if eq $slide.Layout "cover"}}
+<!-- _header: '' -->
+{{- range $slide.Images}}
+{{bgDirective . "bg cover"}}
+{{- end}}
+{{- if $slide.Title}}
+# {{$slide.Title}}
+{{- if $slide.Subtitle}}
+## {{$slide.Subtitle}}
+{{- end}}
+{{- end}}
+{{- if $slide.Notes}}
+
+<!--
+{{$slide.Notes}}
+-->
+{{- end}}
+{{- else}}
 {{- if and (not $slide.Bullets) (not $slide.Images)}}
 <!-- _class: lead -->
 {{- else if and $slide.Images (not $slide.Bullets)}}
@@ -69,6 +87,7 @@ header: '![logo]({{.Theme.Logo}})'
 <!--
 {{$slide.Notes}}
 -->
+{{- end}}
 {{- end}}
 {{end}}`))
 

@@ -11,6 +11,7 @@ spec:
     logo: "https://i.imgur.com/f9KKoJq.png"
   slides:
     - title: ""
+      layout: cover
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/fagfestival-2026.png"
           alt: "SoftwareOne fagfestival 2026"
