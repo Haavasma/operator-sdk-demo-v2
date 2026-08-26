@@ -10,6 +10,10 @@ spec:
     fontFamily: "'Neue Haas Grotesk Pro', 'Neue Haas Grotesk', sans-serif"
     logo: "https://i.imgur.com/f9KKoJq.png"
   slides:
+    - title: ""
+      images:
+        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/fagfestival-2026.png"
+          alt: "SoftwareOne fagfestival 2026"
     - title: "Stop clicking. Start declaring."
     - title: ""
       images:
