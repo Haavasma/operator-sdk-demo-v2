@@ -79,7 +79,7 @@ spec:
         - "Skip it when: a Helm chart, Job, or plain Deployment already does the job"
         - "Skip it when: the abstraction is one team, one app — premature platform"
         - "Operators are leverage. Don't build leverage you won't reuse."
-    - title: "DEMO"
+    - title: "Hello from DEMO"
     - title: "What the demo just showed"
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/operator-presentation.gif"
