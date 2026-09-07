@@ -10,12 +10,6 @@ spec:
     fontFamily: "'Neue Haas Grotesk Pro', 'Neue Haas Grotesk', sans-serif"
     logo: "https://i.imgur.com/f9KKoJq.png"
   slides:
-    - title: ""
-      layout: cover
-      images:
-        - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/fagfestival-2026.png"
-          alt: "SoftwareOne fagfestival 2026"
-      notes: "La coveret stå mens folk setter seg etter pausen. Ikke start på ordet — pust."
     - title: "Bjørn viste dere golden paths. Men hva ER en golden path — teknisk sett?"
       notes: "Hengende spørsmål i Bjørns hook-stil. Ikke svar — la det jobbe 3-4 sek, klikk videre. Svaret er resten av foredraget."
     - title: ""
