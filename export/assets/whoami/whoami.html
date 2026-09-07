@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html, body {
+    margin: 0; padding: 0;
+    width: 1920px; height: 1080px;
+    background: #000000;
+    font-family: 'JetBrains Mono', 'Fira Code', 'DejaVu Sans Mono', monospace;
+    overflow: hidden;
+  }
+  .neofetch {
+    display: flex;
+    align-items: center;
+    gap: 90px;
+    height: 100%;
+    padding: 0 140px;
+    box-sizing: border-box;
+  }
+  .neofetch img {
+    width: 480px;
+    height: 620px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  pre {
+    margin: 0;
+    font-size: 30px;
+    line-height: 1.55;
+    color: #FFFFFF;
+  }
+  .prompt { color: #3366FF; font-weight: 700; }
+  .cmd { color: #FFFFFF; font-weight: 700; }
+  .rule { color: rgba(255,255,255,0.25); }
+  .key { color: #3366FF; }
+  .dim { color: #A1A7AE; }
+</style>
+</head>
+<body>
+<div class="neofetch">
+  <img src="profile.jpg" alt="Håvard Stavnås Markhus">
+  <pre><span class="prompt">haavard@softwareone:~$</span> <span class="cmd">whoami</span>
+<span class="rule">--------------------------------</span>
+<span class="key">Name</span>:       Håvard Stavnås Markhus
+<span class="key">Role</span>:       Software / Platform Engineer
+<span class="key">Position</span>:   Consultant
+<span class="key">Location</span>:   Trondheim / Stjørdal
+<span class="key">Uptime</span>:     29 years
+<span class="key">Experience</span>: 4 years
+<span class="key">Education</span>:  Datateknologi, NTNU
+
+<span class="prompt">haavard@softwareone:~$</span> <span class="cmd">ps -a</span>
+<span class="rule">--------------------------------</span>
+<span class="key">START    DURATION  PROJECT</span>
+2020-08  2y        /favn <span class="dim">(student)</span>
+2021-08  2y        /sportradar <span class="dim">(student, samtidig)</span>
+2023-08  2y        /prores/enegrid
+2025-08  →         /softwareone/danmark
+</pre>
+</div>
+</body>
+</html>
