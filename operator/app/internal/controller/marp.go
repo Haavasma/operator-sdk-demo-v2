@@ -22,7 +22,9 @@ var marpTemplate = template.Must(template.New("marp").Funcs(template.FuncMap{
 marp: true
 theme: default
 style: |
-  section { background-color: {{.Theme.BackgroundColor}}; color: {{.Theme.PrimaryColor}}; font-family: {{.Theme.FontFamily}}; }
+  section { background-color: {{.Theme.BackgroundColor}}; color: {{.Theme.PrimaryColor}}; font-family: {{.Theme.FontFamily}}; font-size: 26px; }
+  section h1 { font-size: 1.5em; }
+  section li { line-height: 1.45; margin-bottom: 0.25em; }
   h1 { color: {{.Theme.PrimaryColor}}; }
   h2 { color: {{.Theme.SecondaryColor}}; }
   section.has-images p img { display: block; margin: 0 auto; max-height: 65%; object-fit: contain; }
