@@ -10,7 +10,7 @@ spec:
     fontFamily: "'Neue Haas Grotesk Pro', 'Neue Haas Grotesk', sans-serif"
     logo: "https://i.imgur.com/f9KKoJq.png"
   slides:
-    - title: "Bjørn viste dere golden paths. Men hva ER en golden path — teknisk sett?"
+    - title: "BK viste dere golden paths. Men hva ER en golden path — teknisk sett?"
       notes: "Hengende spørsmål i Bjørns hook-stil. Ikke svar — la det jobbe 3-4 sek, klikk videre. Svaret er resten av foredraget."
     - title: ""
       images:
