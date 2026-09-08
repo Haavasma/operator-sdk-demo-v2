@@ -38,7 +38,7 @@ spec:
         - "Deklarativ orkestrator for containere"
         - "Ønsket tilstand i YAML — controllere reconciler"
         - "Deployment, Service, Ingress, ConfigMap ..."
-        - "Selvhelende sløyfer håndterer drift og feil"
+        - '"Self-healing loops" håndterer drift og feil'
     - title: "Steg 2: GitOps"
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/gitops-sync.gif"
