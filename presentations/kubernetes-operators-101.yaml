@@ -117,5 +117,4 @@ spec:
         - "→ CI + ArgoCD ApplicationSets: tst, prd, preview per PR"
         - "→ automatisk image-oppdatering"
         - "Onboarding til prod — én ressurs, én operator"
-        - "Marius viser dere den nå."
-      notes: "Siste slide — står på skjermen inn i Marius' del og blir hans intro. Ingen visuals: han eier opplevelsen, du har gitt publikum mønsteret å se den gjennom."
+      notes: "Siste slide — Forklar at canopy er bygd med denne som kjerne i alt av self-service"
