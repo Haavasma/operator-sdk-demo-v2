@@ -91,7 +91,7 @@ spec:
         - "Dropp når: ett team, én app — «bygg for deg selv»-fella"
         - "Ikke bygg leverage du ikke får gjenbrukt"
       notes: "Callback til BKs tre feilmønstre. Anti-hype-sliden — bygger troverdighet før demoen. Ekstern tilstand = skyressurser, SaaS, databaser; kravet er ikke-triviell livssyklus."
-    - title: "DEMO"
+    - title: "DEMO from digs"
     - title: "Hva demoen nettopp viste"
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/operator-presentation.gif"
