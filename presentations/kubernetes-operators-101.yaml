@@ -18,7 +18,7 @@ spec:
         # Kilde: export/assets/whoami/whoami.html (re-render med chromium --headless --screenshot)
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/whoami-haavasma.png"
           alt: "whoami — Håvard, utvikler i skyttergraven"
-      notes: "~30 sek. Samme terminal-stil som BKs bio — visuell kontinuitet. Etabler perspektivet: jeg er utvikleren som lever i dette."
+      notes: "~30 Sek: Nevn Prores/Enegrid første erfaring med kubernetes og platform engineering sammen med marius, SoftwareOne: mye generelt infra arbeid, men etterhvert bygd opp og forka canopy her som pilot med gode responser så langt"
     - title: "Diagnosen — sett fra skyttergraven"
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/problem-toil.gif"
@@ -29,7 +29,7 @@ spec:
         - "Kunnskapen ligger i Confluence, Slack og hoder"
         - "Neste team starter fra null"
         - "Hvordan koder vi bort dette?"
-      notes: "Dere kjenner igjen dette fra BKs diagnose — her er min versjon, med møter og clickops. Kort — bekreftelse, ikke ny motivasjon. Siste bullet er broen inn i stigen."
+      notes: "Min versjon av BKs diagnose. Dere kjenner igjen dette fra BKs diagnose — her er min versjon, med møter og clickops. Kort — bekreftelse, ikke ny motivasjon. Siste bullet er broen inn i stigen."
     - title: "Steg 1: Kubernetes"
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/k8s-reconcile.gif"
@@ -39,6 +39,8 @@ spec:
         - "Ønsket tilstand i YAML — controllere reconciler"
         - "Deployment, Service, Ingress, ConfigMap ..."
         - '"Self-healing loops" håndterer drift og feil'
+      notes: "Mitt favoritt verktøy for å fasilitere golden paths er Kubernetes Operator SDK, men først litt om kubernetes. Kube ressurser er det kube tar seg av. specs er developer control"
+
     - title: "Steg 2: GitOps"
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/gitops-sync.gif"
@@ -49,7 +51,7 @@ spec:
         - "Auditerbart, reproduserbart — BKs delivery plane"
         - "Men: bare så uttrykksfullt som ressursene du applyer"
         - "Komplekse apper trenger fortsatt glue og manuelle steg"
-      notes: "Callback: pek tilbake på BKs fem planes. Siste to bullets er setup for CRD-steget — glue-scripts, Helm-triks, manuelle steg."
+      notes: "Callback: pek tilbake på BKs fem planes, GitOps er Delivery plane. Siste to bullets er setup for CRD-steget — glue-scripts, Helm-triks, manuelle steg."
     - title: "Steg 3: Custom Resources"
       images:
         - url: "https://github.com/Haavasma/operator-sdk-demo-v2/releases/download/videos-v2/crd-abstraction.gif"
